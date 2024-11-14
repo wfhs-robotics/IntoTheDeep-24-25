@@ -1,17 +1,19 @@
-package org.firstinspires.ftc.teamcode.Misc;
-
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad2;
+package org.firstinspires.ftc.teamcode.Tests;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.controller.PIDController;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Misc.Hardware;
 
 
 @Config
-public class PidController {
+@TeleOp(name = "PidControllerTuning", group = "Test")
+public class PidControllerTuning extends OpMode {
     // WATCH THIS VIDEO FOR TUNING THE PID LOOPS https://youtu.be/E6H6Nqe6qJo?si=ZiYEEjVgNf5uhZ-E
 
     PIDController controllerRight;
@@ -25,24 +27,20 @@ public class PidController {
 
 
     public static double ticks_in_degrees = 145.1/360;
-
-    public PidController(Telemetry telemetry, Gamepad gamepad2) {
-        this.telemetry = telemetry;
-        this.gamepad2 = gamepad2;
-    }
-
-
-    public void init(HardwareMap hardwareMap) {
+    
+    @Override
+    public void init() {
         controllerRight =  new PIDController(pR,iR,dR);
         controllerLeft =  new PIDController(pL,iL,dL);
         robot.init(hardwareMap);
     }
 
-
-    public void run() {
-      slidePID();
-      telemetry.update();
+    @Override
+    public void loop() {
+        slidePID();
+        telemetry.update();
     }
+
 
     private void slidePID() {
         slideLeftPID();
@@ -56,12 +54,7 @@ public class PidController {
         double ffRight = Math.cos(Math.toRadians(target/ticks_in_degrees)) * fR;
 
         double powerRight = pidRight + ffRight;
-        if (gamepad2.left_stick_y != 0) {
-            robot.slideRight.setPower(-gamepad2.left_stick_y);
-            target = slideRightPos;
-        } else {
-            robot.slideRight.setPower(-powerRight * .975);
-        }
+        robot.slideRight.setPower(powerRight);
 
         telemetry.addData("posRight ", slideRightPos);
         telemetry.addData("target ", target);
@@ -74,14 +67,12 @@ public class PidController {
         double ffLeft = Math.cos(Math.toRadians(target/ticks_in_degrees)) * fL;
 
         double powerLeft = pidLeft + ffLeft;
-
-        if (gamepad2.left_stick_y != 0) {
-            robot.slideRight.setPower(-gamepad2.left_stick_y);
-        } else {
-            robot.slideRight.setPower(powerLeft);
-        }
+        robot.slideLeft.setPower(powerLeft);
 
         telemetry.addData("posLeft ", slideLeftPos);
+        telemetry.addData("target ", target);
     }
+
+
 }
 
