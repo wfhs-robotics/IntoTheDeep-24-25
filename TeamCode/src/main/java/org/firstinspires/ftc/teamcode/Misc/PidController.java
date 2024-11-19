@@ -32,42 +32,24 @@ public class PidController {
     }
 
 
-    public void init(HardwareMap hardwareMap) {
+    public void init(HardwareMap hardwareMap, Hardware robot) {
+        this.robot = robot;
         controllerRight =  new PIDController(pR,iR,dR);
         controllerLeft =  new PIDController(pL,iL,dL);
-        robot.init(hardwareMap);
+
+
+        telemetry.update();
     }
 
 
     public void run() {
-      slidePID();
-      telemetry.update();
-    }
-
-    private void slidePID() {
-        slideLeftPID();
-        slideRightPID();
-    }
-
-    private void slideRightPID() {
         controllerRight.setPID(pR,iR,dR);
         int slideRightPos = robot.slideRight.getCurrentPosition();
         double pidRight = controllerRight.calculate(slideRightPos, -target);
-        double ffRight = Math.cos(Math.toRadians(target/ticks_in_degrees)) * fR;
+        double ffRight = Math.cos(Math.toRadians(-target/ticks_in_degrees)) * fR;
 
         double powerRight = pidRight + ffRight;
-        if (gamepad2.left_stick_y != 0) {
-            robot.slideRight.setPower(-gamepad2.left_stick_y);
-            target = slideRightPos;
-        } else {
-            robot.slideRight.setPower(-powerRight * .975);
-        }
 
-        telemetry.addData("posRight ", slideRightPos);
-        telemetry.addData("target ", target);
-    }
-
-    private void slideLeftPID() {
         controllerLeft.setPID(pL,iL,dL);
         int slideLeftPos = robot.slideLeft.getCurrentPosition();
         double pidLeft = controllerLeft.calculate(slideLeftPos, target);
@@ -76,12 +58,59 @@ public class PidController {
         double powerLeft = pidLeft + ffLeft;
 
         if (gamepad2.left_stick_y != 0) {
-            robot.slideRight.setPower(-gamepad2.left_stick_y);
+            robot.slideRight.setPower(gamepad2.left_stick_y);
+            robot.slideLeft.setPower(-gamepad2.left_stick_y);
+            target = slideRightPos;
         } else {
-            robot.slideRight.setPower(powerLeft);
+            robot.slideRight.setPower(powerRight * .975);
+            robot.slideLeft.setPower(powerLeft);
         }
 
+        telemetry.addData("posRight ", slideRightPos);
         telemetry.addData("posLeft ", slideLeftPos);
+        telemetry.addData("target ", target);
+
+        telemetry.update();
     }
+
+//    private void slidePID() {
+//        slideLeftPID();
+//        slideRightPID();
+//    }
+
+//    private void slideRightPID() {
+//        controllerRight.setPID(pR,iR,dR);
+//        int slideRightPos = robot.slideRight.getCurrentPosition();
+//        double pidRight = controllerRight.calculate(slideRightPos, -target);
+//        double ffRight = Math.cos(Math.toRadians(target/ticks_in_degrees)) * fR;
+//
+//        double powerRight = pidRight + ffRight;
+//        if (gamepad2.left_stick_y != 0) {
+//            robot.slideRight.setPower(-gamepad2.left_stick_y);
+//            target = slideRightPos;
+//        } else {
+//            robot.slideRight.setPower(-powerRight * .975);
+//        }
+//
+//        telemetry.addData("posRight ", slideRightPos);
+//        telemetry.addData("target ", target);
+//    }
+//
+//    private void slideLeftPID() {
+//        controllerLeft.setPID(pL,iL,dL);
+//        int slideLeftPos = robot.slideLeft.getCurrentPosition();
+//        double pidLeft = controllerLeft.calculate(slideLeftPos, target);
+//        double ffLeft = Math.cos(Math.toRadians(target/ticks_in_degrees)) * fL;
+//
+//        double powerLeft = pidLeft + ffLeft;
+//
+//        if (gamepad2.left_stick_y != 0) {
+//            robot.slideLeft.setPower(-gamepad2.left_stick_y);
+//        } else {
+//            robot.slideLeft.setPower(powerLeft);
+//        }
+//
+//        telemetry.addData("posLeft ", slideLeftPos);
+//    }
 }
 
