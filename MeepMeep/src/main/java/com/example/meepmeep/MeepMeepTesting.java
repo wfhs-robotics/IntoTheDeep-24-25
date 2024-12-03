@@ -12,14 +12,26 @@ public class MeepMeepTesting {
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 9.5)
+                .setDimensions(17.7, 12)
                 .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(35, -60, 0))
-                .strafeToConstantHeading(new Vector2d(37,37))
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(35, -60, Math.toRadians(90)))
+                .splineToConstantHeading(new Vector2d(5, -29), Math.toRadians(90))
+                .lineToY(-46)
+                .splineTo(new Vector2d(45, -10), Math.toRadians(0))
+                .turn(Math.toRadians(-90))
+                .strafeTo(new Vector2d(45, -60))
+                .strafeTo(new Vector2d(45, -10))
+                .strafeTo(new Vector2d(55, -10))
+                .strafeTo(new Vector2d(55, -60))
+                .strafeTo(new Vector2d(55, -60))
+                .strafeTo(new Vector2d(55, -10))
+                .strafeTo(new Vector2d(63, -10))
+                .strafeTo(new Vector2d(63, -60))
                 .build());
 
-        meepMeep.setBackground(MeepMeep.Background.FIELD_POWERPLAY_OFFICIAL)
+        meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_DARK)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
                 .addEntity(myBot)

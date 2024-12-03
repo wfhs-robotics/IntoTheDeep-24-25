@@ -19,7 +19,8 @@ public final class SplineTest extends LinearOpMode {
 
             Actions.runBlocking(
                 drive.actionBuilder(startPose)
-                        .strafeTo(new Vector2d(37, 37))
+                        .splineToConstantHeading(new Vector2d(5, -29), Math.toRadians(90))
+                        .splineToConstantHeading(new Vector2d(50, -10), Math.toRadians(90))
                         .build());
         } else {
             throw new RuntimeException();

@@ -44,7 +44,7 @@ public class Drive extends OpMode {
     }
     @Override // Runs ONCE when a person hits START
     public void start() {
-
+        // Init servos
     };
 
     // LOOPS while the until the player hits STOP
@@ -52,39 +52,40 @@ public class Drive extends OpMode {
     public void loop() {
         pose = drive.pose;
 
+
         drive.setDrivePowers(new PoseVelocity2d(
-                new Vector2d(-gamepad1.left_stick_y, -gamepad1.left_stick_x),
-                -gamepad1.right_stick_x
+                new Vector2d(-gamepad1.left_stick_y * .9, -gamepad1.left_stick_x * .9),
+                -gamepad1.right_stick_x * .9
         ));
 
 
         pid.run();
-        pickupLogic();
+//        pickupLogic();
 
 
-        robot.linearActuator.setPower(Range.clip(-gamepad1.right_stick_y, -0.5, 0.5));
+        robot.linearActuator.setPower(Range.clip(-gamepad1.right_stick_y, -0.8, 0.8));
 
         drive.updatePoseEstimate();
     }
 
     public void pickupLogic() {
-        if(gamepad2.y) { // Open Arm
-            robot.armLeft.setPosition(arm1PosOpen);
-            robot.armRight.setPosition(arm1PosOpen);
-            robot.arm2Right.setPosition(arm2PosOpen);
-            robot.arm2Left.setPosition(arm2PosOpen);
-        }
-        if(gamepad2.a) { // Close Arm
-            robot.armLeft.setPosition(arm1PosClosed);
-            robot.armRight.setPosition(arm1PosClosed);
-            robot.arm2Left.setPosition(arm2PosClosed);
-            robot.arm2Right.setPosition(arm2PosClosed);
-        }
-        if(gamepad2.b) {
-            robot.claw.setPosition(clawOpen);
-        }
-        if(gamepad2.x) {
-            robot.claw.setPosition(clawClosed);
-        }
+//        if(gamepad2.y) { // Open Arm
+//            robot.armLeft.setPosition(arm1PosOpen);
+//            robot.armRight.setPosition(arm1PosOpen);
+//            robot.arm2Right.setPosition(arm2PosOpen);
+//            robot.arm2Left.setPosition(arm2PosOpen);
+//        }
+//        if(gamepad2.a) { // Close Arm
+//            robot.armLeft.setPosition(arm1PosClosed);
+//            robot.armRight.setPosition(arm1PosClosed);
+//            robot.arm2Left.setPosition(arm2PosClosed);
+//            robot.arm2Right.setPosition(arm2PosClosed);
+//        }
+//        if(gamepad2.b) {
+//            robot.claw.setPosition(clawOpen);
+//        }
+//        if(gamepad2.x) {
+//            robot.claw.setPosition(clawClosed);
+//        }
     }
 }
