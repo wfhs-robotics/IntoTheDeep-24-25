@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.Misc;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad2;
-
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -14,14 +12,15 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class PidController {
     // WATCH THIS VIDEO FOR TUNING THE PID LOOPS https://youtu.be/E6H6Nqe6qJo?si=ZiYEEjVgNf5uhZ-E
 
-    PIDController controllerRight;
-    PIDController controllerLeft;
+    PIDController controllerSlide;
+    PIDController controllerArm;
     Gamepad gamepad2;
     Telemetry telemetry;
     Hardware robot = new Hardware();
-    public static double pR = 0.022, iR= 0, dR= 0.0001, fR= 0.05;
-    public static double pL = 0.022, iL= 0, dL= 0.0001, fL= 0.05;
-    public static int target = 0;
+    public static double pSlide = 0.022, iSlide = 0, dSlide = 0.0001, fSlide = 0.05;
+    public static double pArm = 0.022, iArm = 0, dArm = 0.0001, fArm = 0.05;
+    public static int targetSlide = 0;
+    public static int targetArm = 0;
 
 
     public static double ticks_in_degrees = 145.1/360;
@@ -34,41 +33,49 @@ public class PidController {
 
     public void init(HardwareMap hardwareMap, Hardware robot) {
         this.robot = robot;
-        controllerRight =  new PIDController(pR,iR,dR);
-        controllerLeft =  new PIDController(pL,iL,dL);
-
+        controllerSlide =  new PIDController(pSlide, iSlide, dSlide);
+        controllerArm =  new PIDController(pArm, iArm, dArm);
 
         telemetry.update();
     }
 
 
     public void run() {
-        controllerRight.setPID(pR,iR,dR);
-        int slideRightPos = robot.slideRight.getCurrentPosition();
-        double pidRight = controllerRight.calculate(slideRightPos, -target);
-        double ffRight = Math.cos(Math.toRadians(-target/ticks_in_degrees)) * fR;
+        controllerSlide.setPID(pSlide, iSlide, dSlide);
+        int slidePos = robot.slide.getCurrentPosition();
+        double pidSlide = controllerSlide.calculate(slidePos, targetSlide);
+        double ffSlide = Math.cos(Math.toRadians(targetSlide/ticks_in_degrees)) * fSlide;
 
-        double powerRight = pidRight + ffRight;
-
-        controllerLeft.setPID(pL,iL,dL);
-        int slideLeftPos = robot.slideLeft.getCurrentPosition();
-        double pidLeft = controllerLeft.calculate(slideLeftPos, target);
-        double ffLeft = Math.cos(Math.toRadians(target/ticks_in_degrees)) * fL;
-
-        double powerLeft = pidLeft + ffLeft;
+        double slidePower = pidSlide + ffSlide;
 
         if (gamepad2.left_stick_y != 0) {
-            robot.slideRight.setPower(gamepad2.left_stick_y);
-            robot.slideLeft.setPower(-gamepad2.left_stick_y);
-            target = slideRightPos;
+            robot.slide.setPower(gamepad2.left_stick_y);
+            targetSlide = slidePos;
         } else {
-            robot.slideRight.setPower(powerRight * .975);
-            robot.slideLeft.setPower(powerLeft);
+            robot.slide.setPower(slidePower);
         }
 
-        telemetry.addData("posRight ", slideRightPos);
-        telemetry.addData("posLeft ", slideLeftPos);
-        telemetry.addData("target ", target);
+        controllerArm.setPID(pArm, iArm, dArm);
+        int armPos = robot.arm.getCurrentPosition();
+        double pidArm = controllerArm.calculate(armPos, targetArm);
+        double ffArm = Math.cos(Math.toRadians(targetArm/ticks_in_degrees)) * fArm;
+
+        double armPower = pidArm + ffArm;
+
+        if(gamepad2.left_stick_y != 0) {
+            robot.arm.setPower(gamepad2.right_stick_y);
+            targetArm = armPos;
+        } else {
+            robot.arm.setPower(armPower);
+        }
+
+
+
+        telemetry.addData("posSlide ", slidePos);
+        telemetry.addData("posArm ", armPos);
+        telemetry.addData("targetSlide ", targetSlide);
+        telemetry.addData("targetArm ", targetArm);
+
 
         telemetry.update();
     }

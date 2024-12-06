@@ -14,28 +14,13 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @Config
 public class Hardware {
-    public static double arm1PosOpen = 0;
-    public static double arm2PosOpen = 0;
-    public static double arm1PosClosed = 0;
-    public static double arm2PosClosed = 0;
-    public static double clawOpen = 0;
-    public static double clawClosed = 0;
-    public static double clawRotate;
-
 //     Define Motor and Servo objects
     public DcMotorEx leftFront;
     public DcMotorEx rightFront;
     public DcMotorEx rightBack;
     public DcMotorEx leftBack;
-    public DcMotorEx linearActuator;
-    public DcMotorEx slideLeft;
-    public DcMotorEx slideRight;
-    public Servo armLeft;
-    public Servo armRight;
-    public Servo arm2;
-    public Servo claw;
-    public Servo rotate;
-
+    public DcMotorEx arm;
+    public DcMotorEx slide;
 
     private HardwareMap hwMap;
 
@@ -44,7 +29,6 @@ public class Hardware {
     }
 
     public void init(HardwareMap aHwMap)    {
-
        // HardwareMap is null until the OpMode is run, so it needs to be passed into the method
         hwMap = aHwMap;
 
@@ -52,24 +36,14 @@ public class Hardware {
         leftBack = hwMap.get(DcMotorEx.class, "leftBack");
         rightFront = hwMap.get(DcMotorEx.class, "rightFront");
         rightBack = hwMap.get(DcMotorEx.class, "rightBack");
-        linearActuator = hwMap.get(DcMotorEx.class, "linearActuator");
-        slideRight = hwMap.get(DcMotorEx.class, "slideRight");
-        slideLeft = hwMap.get(DcMotorEx.class, "slideLeft");
-        armLeft = hwMap.get(Servo.class, "armLeft");
-        armRight = hwMap.get(Servo.class, "armRight");
-        arm2 = hwMap.get(Servo.class, "arm2");
-        claw = hwMap.get(Servo.class, "claw");
-//        rotate = hwMap.get(Servo.class, "rotate");
-
-        // TODO: Set Direction of Motors
+        slide = hwMap.get(DcMotorEx.class, "slide");
+        arm = hwMap.get(DcMotorEx.class, "arm");
 
         // RUN_WITHOUT_ENCODER for PID looped motors
-//        slideLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        slideRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        slide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-//        slideRight.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
-//        slideLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-////        linearActuator.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
-
+        slide.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 }

@@ -39,8 +39,8 @@ public class Drive extends OpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry()); // Telemetry that allows for dashboard and phone
 
         // Start the PID
-        pid = new PidController(telemetry, gamepad2);
-        pid.init(hardwareMap, robot);
+//        pid = new PidController(telemetry, gamepad2);
+//        pid.init(hardwareMap, robot);
     }
     @Override // Runs ONCE when a person hits START
     public void start() {
@@ -59,11 +59,11 @@ public class Drive extends OpMode {
         ));
 
 
-        pid.run();
+//        pid.run();
 //        pickupLogic();
 
 
-        robot.linearActuator.setPower(Range.clip(-gamepad1.right_stick_y, -0.8, 0.8));
+//        robot.linearActuator.setPower(Range.clip(-gamepad1.right_stick_y, -0.8, 0.8));
 
         drive.updatePoseEstimate();
     }

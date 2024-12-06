@@ -58,17 +58,17 @@ public final class MecanumDrive {
         public RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection =
                 RevHubOrientationOnRobot.LogoFacingDirection.FORWARD;
         public RevHubOrientationOnRobot.UsbFacingDirection usbFacingDirection =
-                RevHubOrientationOnRobot.UsbFacingDirection.UP;
+                RevHubOrientationOnRobot.UsbFacingDirection.LEFT;
 
         // drive model parameters
-        public double inPerTick = 127.0 / 43346.0;
-        public double lateralInPerTick =  0.002092258810158817;
-        public double trackWidthTicks =  3243.917346153102;
+        public double inPerTick = 127.0 / 43123;
+        public double lateralInPerTick = 0.00216278211146912;
+        public double trackWidthTicks = 3888.2111983812283;
 
         // feedforward parameters (in tick units)
-        public double kS = 0.8140876223958666;
-        public double kV = 0.000595610150677267;
-        public double kA = 0.000159;
+        public double kS = 0.8271179873160492;
+        public double kV = 0.0005918859967070411;
+        public double kA = 0.000134;
 
         // path profile parameters (in inches)
         public double maxWheelVel = 50;
@@ -80,8 +80,8 @@ public final class MecanumDrive {
         public double maxAngAccel = Math.PI;
 
         // path controller gains
-        public double axialGain = 4.5;
-        public double lateralGain = 4.5;
+        public double axialGain = 2.0;
+        public double lateralGain = 4.0;
         public double headingGain = 3.0; // shared with turn
 
         public double axialVelGain = 0.0;
@@ -228,8 +228,6 @@ public final class MecanumDrive {
         // TODO: reverse motor directions if needed
            leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
            leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
-           rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
-
         // TODO: make sure your config has an IMU with this name (can be BNO or BHI)
         //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
         lazyImu = new LazyImu(hardwareMap, "imu", new RevHubOrientationOnRobot(
