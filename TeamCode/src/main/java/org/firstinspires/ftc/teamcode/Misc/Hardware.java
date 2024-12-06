@@ -21,6 +21,9 @@ public class Hardware {
     public DcMotorEx leftBack;
     public DcMotorEx arm;
     public DcMotorEx slide;
+    public Servo armClaw;
+    public Servo wrist;
+    public Servo slideClaw;
 
     private HardwareMap hwMap;
 
@@ -38,6 +41,10 @@ public class Hardware {
         rightBack = hwMap.get(DcMotorEx.class, "rightBack");
         slide = hwMap.get(DcMotorEx.class, "slide");
         arm = hwMap.get(DcMotorEx.class, "arm");
+        armClaw = hwMap.get(Servo.class, "armClaw");
+        wrist = hwMap.get(Servo.class, "wrist");
+        slideClaw = hwMap.get(Servo.class, "slideClaw");
+
 
         // RUN_WITHOUT_ENCODER for PID looped motors
         slide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

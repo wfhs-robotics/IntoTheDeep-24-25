@@ -21,13 +21,6 @@ public class Drive extends OpMode {
     Pose2d pose;
     MecanumDrive drive;
     ThreeDeadWheelLocalizer localizer;
-    public static double arm1PosOpen = 0;
-    public static double arm2PosOpen = 0;
-    public static double arm1PosClosed = 0;
-    public static double arm2PosClosed = 0;
-    public static double clawOpen = 0;
-    public static double clawClosed = 0;
-    public static double clawRotate;
 
     // Runs ONCE when a person hits INIT
     @Override
@@ -39,12 +32,15 @@ public class Drive extends OpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry()); // Telemetry that allows for dashboard and phone
 
         // Start the PID
-//        pid = new PidController(telemetry, gamepad2);
-//        pid.init(hardwareMap, robot);
+        pid = new PidController(telemetry, gamepad2);
+        pid.init(hardwareMap, robot);
     }
     @Override // Runs ONCE when a person hits START
     public void start() {
         // Init servos
+        robot.wrist.setPosition(0);
+        robot.armClaw.setPosition(0);
+        robot.slideClaw.setPosition(0);
     };
 
     // LOOPS while the until the player hits STOP
@@ -52,40 +48,26 @@ public class Drive extends OpMode {
     public void loop() {
         pose = drive.pose;
 
-
         drive.setDrivePowers(new PoseVelocity2d(
                 new Vector2d(-gamepad1.left_stick_y * .9, -gamepad1.left_stick_x * .9),
                 -gamepad1.right_stick_x * .9
         ));
 
-
-//        pid.run();
-//        pickupLogic();
-
-
-//        robot.linearActuator.setPower(Range.clip(-gamepad1.right_stick_y, -0.8, 0.8));
+        pid.run();
+        pickupLogic();
 
         drive.updatePoseEstimate();
     }
 
     public void pickupLogic() {
-//        if(gamepad2.y) { // Open Arm
-//            robot.armLeft.setPosition(arm1PosOpen);
-//            robot.armRight.setPosition(arm1PosOpen);
-//            robot.arm2Right.setPosition(arm2PosOpen);
-//            robot.arm2Left.setPosition(arm2PosOpen);
-//        }
-//        if(gamepad2.a) { // Close Arm
-//            robot.armLeft.setPosition(arm1PosClosed);
-//            robot.armRight.setPosition(arm1PosClosed);
-//            robot.arm2Left.setPosition(arm2PosClosed);
-//            robot.arm2Right.setPosition(arm2PosClosed);
-//        }
-//        if(gamepad2.b) {
-//            robot.claw.setPosition(clawOpen);
-//        }
-//        if(gamepad2.x) {
-//            robot.claw.setPosition(clawClosed);
-//        }
+        if(gamepad2.right_bumper)
+            robot.armClaw.setPosition(0);
+        if(gamepad2.left_bumper)
+            robot.armClaw.setPosition(1);
+
+        if(gamepad2.right_trigger != 0)
+            robot.slideClaw.setPosition(0);
+        if(gamepad2.left_trigger != 0)
+            robot.slideClaw.setPosition(1);
     }
 }
