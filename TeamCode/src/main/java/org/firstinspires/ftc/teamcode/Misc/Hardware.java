@@ -53,4 +53,7 @@ public class Hardware {
         slide.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
+
+    public Action
+
 }

@@ -69,5 +69,10 @@ public class Drive extends OpMode {
             robot.slideClaw.setPosition(0);
         if(gamepad2.left_trigger != 0)
             robot.slideClaw.setPosition(1);
+
+        if(gamepad2.y)
+            robot.wrist.setPosition(0);
+        if(gamepad2.b)
+            robot.wrist.setPosition(1);
     }
 }

@@ -48,7 +48,7 @@ public class PidController {
         double ffSlide = Math.cos(Math.toRadians(targetSlide/ticks_in_degrees)) * fSlide;
 
         double slidePower = pidSlide + ffSlide;
-//
+
         if (gamepad2.left_stick_y != 0) {
             robot.slide.setPower(gamepad2.left_stick_y);
             targetSlide = slidePos;
@@ -65,7 +65,7 @@ public class PidController {
         double armPower = pidArm + ffArm;
 
         if(gamepad2.right_stick_y != 0) {
-            robot.arm.setPower(-gamepad2.right_stick_y);
+            robot.arm.setPower(gamepad2.right_stick_y);
             targetArm = armPos;
         } else {
             robot.arm.setPower(armPower);
