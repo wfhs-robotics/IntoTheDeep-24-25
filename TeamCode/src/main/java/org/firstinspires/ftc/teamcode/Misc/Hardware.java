@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.Misc;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.InstantAction;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -54,6 +56,6 @@ public class Hardware {
         arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
-    public Action
+
 
 }

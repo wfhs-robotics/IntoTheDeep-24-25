@@ -38,45 +38,67 @@ public class PidController {
 
         telemetry.update();
     }
+    //Move only the slide
+    public void runSlide(int targetSlideParam) {
+        run(false, targetSlideParam, targetArm); // Keep the arm at its current position
+    }
 
+    // Move only the arm
+    public void runArm(int targetArmParam) {
+        run(false, targetSlide, targetArmParam); // Keep the slide at its current position
+    }
+    // Move both manually
+    public void run(boolean manual) {
+        // Call the main run method with current targetSlide and targetArm values
+        run(manual, targetSlide, targetArm);
+    }
 
-    public void run() {
+    // Main run method for both manual and automatic modes, can run both arm and slide
+    private void run(boolean manual, int targetSlideParam, int targetArmParam) {
+        // Set PID coefficients
         controllerSlide.setPID(pSlide, iSlide, dSlide);
-        int slidePos = -robot.slide.getCurrentPosition();
-        targetSlide = slidePos;
-        double pidSlide = controllerSlide.calculate(slidePos, targetSlide);
-        double ffSlide = Math.cos(Math.toRadians(targetSlide/ticks_in_degrees)) * fSlide;
-
-        double slidePower = pidSlide + ffSlide;
-
-        if (gamepad2.left_stick_y != 0) {
-            robot.slide.setPower(gamepad2.left_stick_y);
-            targetSlide = slidePos;
-        } else {
-            robot.slide.setPower(-slidePower);
-        }
-
         controllerArm.setPID(pArm, iArm, dArm);
+
+        // Read current positions
+        int slidePos = -robot.slide.getCurrentPosition();
         int armPos = robot.arm.getCurrentPosition();
-        targetArm = armPos;
-        double pidArm = controllerArm.calculate(armPos, targetArm);
-        double ffArm = Math.cos(Math.toRadians(targetArm/ticks_in_degrees)) * fArm;
 
-        double armPower = pidArm + ffArm;
+        // Manual mode: controlled via gamepad
+        if (manual) {
+            // Slide control using gamepad
+            if (gamepad2.left_stick_y != 0) {
+                robot.slide.setPower(gamepad2.left_stick_y);
+                targetSlide = slidePos; // Update targetSlide dynamically
+            }
 
-        if(gamepad2.right_stick_y != 0) {
-            robot.arm.setPower(gamepad2.right_stick_y);
-            targetArm = armPos;
+            // Arm control using gamepad
+            if (gamepad2.right_stick_y != 0) {
+                robot.arm.setPower(gamepad2.right_stick_y);
+                targetArm = armPos; // Update targetArm dynamically
+            }
         } else {
+            // Automatic mode: controlled via target parameters
+            targetSlide = targetSlideParam;
+            targetArm = targetArmParam;
+
+            // Slide PID control
+            double pidSlide = controllerSlide.calculate(slidePos, targetSlide);
+            double ffSlide = Math.cos(Math.toRadians(targetSlide / ticks_in_degrees)) * fSlide;
+            double slidePower = pidSlide + ffSlide;
+            robot.slide.setPower(-slidePower);
+
+            // Arm PID control
+            double pidArm = controllerArm.calculate(armPos, targetArm);
+            double ffArm = Math.cos(Math.toRadians(targetArm / ticks_in_degrees)) * fArm;
+            double armPower = pidArm + ffArm;
             robot.arm.setPower(armPower);
         }
 
-
-
-        telemetry.addData("posSlide ", slidePos);
-        telemetry.addData("posArm ", armPos);
-        telemetry.addData("targetSlide ", targetSlide);
-        telemetry.addData("targetArm ", targetArm);
+        // Telemetry for debugging
+        telemetry.addData("Slide Position", slidePos);
+        telemetry.addData("Arm Position", armPos);
+        telemetry.addData("Target Slide", targetSlide);
+        telemetry.addData("Target Arm", targetArm);
         telemetry.update();
     }
 }
