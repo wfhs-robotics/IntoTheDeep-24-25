@@ -32,6 +32,8 @@ public class Drive extends OpMode {
     private FtcDashboard dash = FtcDashboard.getInstance();
     Actions actions;
     boolean prevA = false;
+    boolean prevY = false;
+    boolean prevStart = false;
 
     // Runs ONCE when a person hits INIT
     @Override
@@ -51,8 +53,8 @@ public class Drive extends OpMode {
     public void start() {
         // Init servos
         robot.wrist.setPosition(0);
-        robot.armClaw.setPosition(0);
-        robot.slideClaw.setPosition(0);
+        robot.slideClawRight.setPosition(0);
+        robot.slideClawLeft.setPosition(0);
     };
 
     // LOOPS while the until the player hits STOP
@@ -73,33 +75,44 @@ public class Drive extends OpMode {
                     -gamepad1.right_stick_x * .9
             ));
 
-        prevA = gamepad1.a;
+        prevA = gamepad2.a;
+        prevY = gamepad2.y;
+        prevStart = gamepad2.start;
 
-        pid.run(true);
+        pid.run(true, prevStart);
+
         pickupLogic();
 
         drive.updatePoseEstimate();
     }
 
     public void pickupLogic() {
-        if(gamepad2.right_bumper)
-            robot.armClaw.setPosition(0);
-        if(gamepad2.left_bumper)
-            robot.armClaw.setPosition(1);
+        if(gamepad2.right_bumper) {
+            robot.slideClawRight.setPosition(1);
+            robot.slideClawLeft.setPosition(0);
+        }
+        if(gamepad2.left_bumper) {
+            robot.slideClawRight.setPosition(0);
+            robot.slideClawLeft.setPosition(1);
+        }
 
-        if(gamepad2.right_trigger != 0)
-            robot.slideClaw.setPosition(0);
-        if(gamepad2.left_trigger != 0)
-            robot.slideClaw.setPosition(1);
+        if(gamepad2.right_trigger != 0) {
+            robot.intake.setPower(gamepad2.right_trigger);
+        }
+
+        if(gamepad2.left_trigger != 0) {
+            robot.intake.setPower(-gamepad2.left_trigger);
+        }
 
 
-        if(gamepad2.y) {
+
+        if(gamepad2.y && gamepad2.y != prevY) {
             runningActions.add(new SequentialAction(
                     actions.stackHighBucket()
             ));
         }
 
-        if(gamepad2.a) {
+        if(gamepad2.a && gamepad2.a != prevA) {
             runningActions.add(new SequentialAction(
                     actions.stackLowBucket()
             ));

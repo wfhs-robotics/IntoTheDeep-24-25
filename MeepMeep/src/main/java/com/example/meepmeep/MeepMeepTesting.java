@@ -28,6 +28,7 @@ public class MeepMeepTesting {
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-35, -55, Math.toRadians(-180)))
                                 .strafeTo(new Vector2d(-35, -15))
                                 .strafeTo(new Vector2d(-20, -15))
+
                                 //drop pixel
 
 //                                .strafeTo(new Vector2d(60))

@@ -23,9 +23,8 @@ public class ServoTuning extends OpMode {
 
     @Override
     public void loop() {
-        robot.armClaw.setPosition(armClawPos);
-        robot.slideClaw.setPosition(slideClawPos);
+        robot.slideClawLeft.setPosition(slideClawPos);
+        robot.slideClawRight.setPosition(slideClawPos);
         robot.wrist.setPosition(wristPos);
-
     }
 }

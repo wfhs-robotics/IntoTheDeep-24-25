@@ -14,31 +14,47 @@ public class Actions {
         this.pid =  pid;
         robot.init(hardwareMap);
     }
-    public Action slideHigh() { return new InstantAction(() -> pid.runSlide(2000)); }
+    public Action slideArmHigh() { return new InstantAction(() -> pid.runSlide(2000)); }
 
-    public Action slideLow() { return new InstantAction(() -> pid.runSlide(1000)); }
+    public Action slideArmLow() { return new InstantAction(() -> pid.runSlide(1000)); }
 
     public Action moveArm() { return new InstantAction(() -> pid.runArm(100)); }
 
-    public Action openArmClaw() { return new InstantAction(() -> robot.armClaw.setPosition(0)); }
+    public Action releaseObject() { return new InstantAction(() -> robot.intake.setPower(-1)); }
 
-    public Action closeArmClaw() { return new InstantAction(() -> robot.armClaw.setPosition(1)); }
+    public Action intake() { return new InstantAction(() -> robot.intake.setPower(1)); }
 
-    public Action openSlideClaw() { return new InstantAction(() -> robot.slideClaw.setPosition(0)); }
+    public Action openSlideClawRight() { return new InstantAction(() -> robot.slideClawRight.setPosition(0)); }
 
-    public Action closeSlideClaw() { return new InstantAction(() -> robot.slideClaw.setPosition(1)); }
+    public Action closeSlideClawRight() { return new InstantAction(() -> robot.slideClawRight.setPosition(1)); }
+
+    public Action openSlideClawLeft() { return new InstantAction(() -> robot.slideClawLeft.setPosition(0)); }
+
+    public Action closeSlideClawLeft() { return new InstantAction(() -> robot.slideClawLeft.setPosition(1)); }
+
+    public Action openSlideClaw() {
+        return new SequentialAction(
+                openSlideClawLeft(),
+                openSlideClawRight());
+    }
+
+    public Action closeSlideClaw() {
+        return new SequentialAction(
+                closeSlideClawLeft(),
+                closeSlideClawRight());
+    }
 
     public Action stackLowBucket() {
         return new SequentialAction(
-                slideLow(),
+                slideArmLow(),
                 new SleepAction(1),
-                openArmClaw());
+                releaseObject());
     }
     public Action stackHighBucket() {
         return new SequentialAction(
-                slideHigh(),
+                slideArmHigh(),
                 new SleepAction(1),
-                openArmClaw());
+                releaseObject());
     }
 
 }

@@ -6,6 +6,7 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.InstantAction;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -23,9 +24,11 @@ public class Hardware {
     public DcMotorEx leftBack;
     public DcMotorEx arm;
     public DcMotorEx slide;
-    public Servo armClaw;
+    public DcMotorEx slideArm;
     public Servo wrist;
-    public Servo slideClaw;
+    public Servo slideClawLeft;
+    public Servo slideClawRight;
+    public CRServo intake;
 
     private HardwareMap hwMap;
 
@@ -42,18 +45,23 @@ public class Hardware {
         rightFront = hwMap.get(DcMotorEx.class, "rightFront");
         rightBack = hwMap.get(DcMotorEx.class, "rightBack");
         slide = hwMap.get(DcMotorEx.class, "slide");
+        slideArm = hwMap.get(DcMotorEx.class, "slideArm");
         arm = hwMap.get(DcMotorEx.class, "arm");
-        armClaw = hwMap.get(Servo.class, "armClaw");
         wrist = hwMap.get(Servo.class, "wrist");
-        slideClaw = hwMap.get(Servo.class, "slideClaw");
+        slideClawRight = hwMap.get(Servo.class, "slideClawRight");
+        slideClawLeft = hwMap.get(Servo.class, "slideClawLeft");
+        intake = hwMap.get(CRServo.class, "intake");
 
 
-        // RUN_WITHOUT_ENCODER for PID looped motors
+        // Reset encoder values for the PID looped motors so that they start at 0
         slide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        slideArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        // RUN_WITHOUT_ENCODER for PID looped motors
         slide.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        slideArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
 
