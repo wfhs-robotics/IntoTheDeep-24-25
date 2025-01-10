@@ -18,7 +18,6 @@ import org.firstinspires.ftc.teamcode.RoadRunner.tuning.TuningOpModes;
 public final class Sample extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        Claw claw = new Claw(hardwareMap);
 
         Pose2d startPose = new Pose2d(-36, -56, Math.toRadians(-180));
         if (TuningOpModes.DRIVE_CLASS.equals(MecanumDrive.class)) {
@@ -27,7 +26,6 @@ public final class Sample extends LinearOpMode {
 
             waitForStart();
             Action openClaw =  new SequentialAction(
-                    claw.openClaw(),
                     sleepAction(1000)
             );
 
@@ -44,6 +42,8 @@ public final class Sample extends LinearOpMode {
             throw new RuntimeException();
         }
     }
+
+
     public Action sleepAction(int milliseconds) {
         return new Action() {
             @Override

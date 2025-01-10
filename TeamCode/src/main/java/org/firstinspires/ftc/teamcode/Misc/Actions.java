@@ -7,18 +7,11 @@ import com.acmerobotics.roadrunner.SleepAction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Actions {
-    PidController pid;
     Hardware robot = new Hardware();
 
-    public Actions(PidController pid, HardwareMap hardwareMap) {
-        this.pid =  pid;
+    public Actions(HardwareMap hardwareMap) {
         robot.init(hardwareMap);
     }
-    public Action slideArmHigh() { return new InstantAction(() -> pid.runSlide(2000)); }
-
-    public Action slideArmLow() { return new InstantAction(() -> pid.runSlide(1000)); }
-
-    public Action moveArm() { return new InstantAction(() -> pid.runArm(100)); }
 
     public Action releaseObject() { return new InstantAction(() -> robot.intake.setPower(-1)); }
 
@@ -44,17 +37,5 @@ public class Actions {
                 closeSlideClawRight());
     }
 
-    public Action stackLowBucket() {
-        return new SequentialAction(
-                slideArmLow(),
-                new SleepAction(1),
-                releaseObject());
-    }
-    public Action stackHighBucket() {
-        return new SequentialAction(
-                slideArmHigh(),
-                new SleepAction(1),
-                releaseObject());
-    }
 
 }
