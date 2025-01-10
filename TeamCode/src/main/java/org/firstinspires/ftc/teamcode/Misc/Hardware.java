@@ -1,19 +1,11 @@
 package org.firstinspires.ftc.teamcode.Misc;
 
-import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.InstantAction;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.Range;
-
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @Config
 public class Hardware {
@@ -26,8 +18,8 @@ public class Hardware {
     public DcMotorEx slide;
     public DcMotorEx slideArm;
     public Servo wrist;
-    public Servo slideClawLeft;
-    public Servo slideClawRight;
+    public Servo clawLeft;
+    public Servo clawRight;
     public CRServo intake;
 
     private HardwareMap hwMap;
@@ -48,8 +40,8 @@ public class Hardware {
         slideArm = hwMap.get(DcMotorEx.class, "slideArm");
         arm = hwMap.get(DcMotorEx.class, "arm");
         wrist = hwMap.get(Servo.class, "wrist");
-        slideClawRight = hwMap.get(Servo.class, "slideClawRight");
-        slideClawLeft = hwMap.get(Servo.class, "slideClawLeft");
+        clawRight = hwMap.get(Servo.class, "slideClawRight");
+        clawLeft = hwMap.get(Servo.class, "slideClawLeft");
         intake = hwMap.get(CRServo.class, "intake");
 
 

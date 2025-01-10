@@ -11,7 +11,6 @@ import com.qualcomm.robotcore.eventloop.opmode.*;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Misc.Actions;
 import org.firstinspires.ftc.teamcode.Misc.Hardware;
 import org.firstinspires.ftc.teamcode.Misc.PoseStorage;
 import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
@@ -28,6 +27,8 @@ public class Drive extends OpMode {
     private FtcDashboard dash = FtcDashboard.getInstance();
     boolean prevA = false;
     boolean prevY = false;
+    int slideTarget = 0; // Default to 0
+
 
 
 
@@ -44,8 +45,8 @@ public class Drive extends OpMode {
     public void start() {
         // Init servos
         robot.wrist.setPosition(0);
-        robot.slideClawRight.setPosition(1);
-        robot.slideClawLeft.setPosition(0);
+        robot.clawRight.setPosition(1);
+        robot.clawLeft.setPosition(0);
     };
 
     // LOOPS while the until the player hits STOP
@@ -65,39 +66,41 @@ public class Drive extends OpMode {
             ));
 
         pickupLogic();
-        prevY = gamepad2.y;
-        prevA =  gamepad2.a;
-//        pid.run(true, prevStart);
 
         drive.updatePoseEstimate();
     }
 
     public void pickupLogic() {
-        if(gamepad2.left_stick_y != 0) {
+        // Manual or automatic arm control
+        if (gamepad2.left_stick_y != 0) {
+            // Manual arm movement
             robot.arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             robot.arm.setPower(gamepad2.left_stick_y);
         } else {
+            // Automatic arm control to hold position
             robot.arm.setTargetPosition(robot.arm.getCurrentPosition());
             robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.arm.setVelocity(2100);
         }
 
-        if(gamepad2.dpad_up) {
-            robot.slide.setTargetPosition(-2000);
-            robot.slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.slide.setVelocity(2100);
+        if(robot.arm.getCurrentPosition() > 4500) {
+            robot.wrist.setPosition(1);
+        } else {
+            robot.wrist.setPosition(0);
         }
-        if(gamepad2.dpad_right) {
-            robot.slide.setTargetPosition(-1000);
-            robot.slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.slide.setVelocity(2100);
-        }
-        if(gamepad2.dpad_down) {
-            robot.slide.setTargetPosition(0);
+
+        // Slide Positions
+        if (gamepad2.dpad_up) slideTarget = -2000;
+        else if (gamepad2.dpad_right) slideTarget = -1000;
+        else if (gamepad2.dpad_down) slideTarget = 0;
+
+        if (gamepad2.dpad_up || gamepad2.dpad_right || gamepad2.dpad_down) {
+            robot.slide.setTargetPosition(slideTarget);
             robot.slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.slide.setVelocity(2100);
         }
 
+        // Slide Arm Control with toggling positions
         if(gamepad2.y && gamepad2.y != prevY) {
             if (robot.arm.getTargetPosition() == 2000) {
                 robot.slideArm.setTargetPosition(0);
@@ -121,13 +124,14 @@ public class Drive extends OpMode {
             }
         }
 
+        // Claw Control
         if(gamepad2.right_bumper) {
-            robot.slideClawRight.setPosition(1);
-            robot.slideClawLeft.setPosition(0);
+            robot.clawRight.setPosition(1);
+            robot.clawLeft.setPosition(0);
         }
         if(gamepad2.left_bumper) {
-            robot.slideClawRight.setPosition(0);
-            robot.slideClawLeft.setPosition(1);
+            robot.clawRight.setPosition(0);
+            robot.clawLeft.setPosition(1);
         }
 
         if(gamepad2.right_trigger != 0) {
@@ -143,8 +147,10 @@ public class Drive extends OpMode {
         }
 
         prevY = gamepad2.y;
-
+        prevA = gamepad2.a;
     }
+
+
     public void actionLogic(Telemetry telemetry, List<Action> newActions) {
         TelemetryPacket packet = new TelemetryPacket();
 

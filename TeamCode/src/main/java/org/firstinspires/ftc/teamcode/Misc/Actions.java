@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.Misc;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.SleepAction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Actions {
@@ -17,13 +16,13 @@ public class Actions {
 
     public Action intake() { return new InstantAction(() -> robot.intake.setPower(1)); }
 
-    public Action openSlideClawRight() { return new InstantAction(() -> robot.slideClawRight.setPosition(0)); }
+    public Action openSlideClawRight() { return new InstantAction(() -> robot.clawRight.setPosition(0)); }
 
-    public Action closeSlideClawRight() { return new InstantAction(() -> robot.slideClawRight.setPosition(1)); }
+    public Action closeSlideClawRight() { return new InstantAction(() -> robot.clawRight.setPosition(1)); }
 
-    public Action openSlideClawLeft() { return new InstantAction(() -> robot.slideClawLeft.setPosition(0)); }
+    public Action openSlideClawLeft() { return new InstantAction(() -> robot.clawLeft.setPosition(0)); }
 
-    public Action closeSlideClawLeft() { return new InstantAction(() -> robot.slideClawLeft.setPosition(1)); }
+    public Action closeSlideClawLeft() { return new InstantAction(() -> robot.clawLeft.setPosition(1)); }
 
     public Action openSlideClaw() {
         return new SequentialAction(
