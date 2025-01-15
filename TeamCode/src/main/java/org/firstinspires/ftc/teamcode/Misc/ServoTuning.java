@@ -8,12 +8,10 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 @TeleOp
 public class ServoTuning extends OpMode {
     Hardware robot;
-    public static double armClawPos = 0;
-    public static double slideClawPos = 0;
+    public static double clawLeft = 0;
+    public static double clawRight = 0;
     public static double wristPos = 0;
 
-    // Arm pickup mode, arm 1 -- .25, arm 2 -- .55
-    // Arm away mode - 0s
 
     @Override
     public void init() {
@@ -23,8 +21,8 @@ public class ServoTuning extends OpMode {
 
     @Override
     public void loop() {
-        robot.clawLeft.setPosition(slideClawPos);
-        robot.clawRight.setPosition(slideClawPos);
+        robot.clawLeft.setPosition(clawLeft);
+        robot.clawRight.setPosition(clawRight);
         robot.wrist.setPosition(wristPos);
     }
 }

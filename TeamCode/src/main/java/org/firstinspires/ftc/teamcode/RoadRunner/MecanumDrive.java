@@ -50,10 +50,10 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
-import org.firstinspires.ftc.teamcode.messages.DriveCommandMessage;
-import org.firstinspires.ftc.teamcode.messages.MecanumCommandMessage;
-import org.firstinspires.ftc.teamcode.messages.MecanumLocalizerInputsMessage;
-import org.firstinspires.ftc.teamcode.messages.PoseMessage;
+import org.firstinspires.ftc.teamcode.RoadRunner.messages.DriveCommandMessage;
+import org.firstinspires.ftc.teamcode.RoadRunner.messages.MecanumCommandMessage;
+import org.firstinspires.ftc.teamcode.RoadRunner.messages.MecanumLocalizerInputsMessage;
+import org.firstinspires.ftc.teamcode.RoadRunner.messages.PoseMessage;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -72,12 +72,12 @@ public class MecanumDrive {
 
         // drive model parameters
         public double inPerTick = 1; // If you're using OTOS/Pinpoint leave this at 1 (all values will be in inches, 1 tick = 1 inch)
-        public double lateralInPerTick =  0.7821099334646863; // Tune this with LateralRampLogger (even if you use OTOS/Pinpoint)
+        public double lateralInPerTick =  0.7595518183302565; // Tune this with LateralRampLogger (even if you use OTOS/Pinpoint)
         public double trackWidthTicks = 14.5;
 
         // feedforward parameters (in tick units)
-        public double kS = 0.8284522140317816;
-        public double kV = 0.21044828801522983;
+        public double kS = 0.78192634130887;
+        public double kV = 0.2053574498290001;
         public double kA = 0.000015;
 
         // path profile parameters (in inches)

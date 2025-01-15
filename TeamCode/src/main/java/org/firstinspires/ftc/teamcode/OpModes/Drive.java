@@ -84,14 +84,14 @@ public class Drive extends OpMode {
         }
 
         if(robot.arm.getCurrentPosition() > 4500) {
-            robot.wrist.setPosition(1);
-        } else {
             robot.wrist.setPosition(0);
+        } else {
+            robot.wrist.setPosition(.3);
         }
 
         // Slide Positions
-        if (gamepad2.dpad_up) slideTarget = -2000;
-        else if (gamepad2.dpad_right) slideTarget = -1000;
+        if (gamepad2.dpad_up) slideTarget = 3500;
+        else if (gamepad2.dpad_right) slideTarget = 1500;
         else if (gamepad2.dpad_down) slideTarget = 0;
 
         if (gamepad2.dpad_up || gamepad2.dpad_right || gamepad2.dpad_down) {
@@ -102,7 +102,7 @@ public class Drive extends OpMode {
 
         // Slide Arm Control with toggling positions
         if(gamepad2.y && gamepad2.y != prevY) {
-            if (robot.arm.getTargetPosition() == 2000) {
+            if (robot.arm.getTargetPosition() == 5300) {
                 robot.slideArm.setTargetPosition(0);
                 robot.slideArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 robot.slideArm.setVelocity(2100);

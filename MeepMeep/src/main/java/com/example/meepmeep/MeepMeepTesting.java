@@ -22,29 +22,33 @@ public class MeepMeepTesting {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 9.5)
                 .setDimensions(17.7, 12)
                 .build();
-
+//
 //        Action moveArm = new SequentialAction(
 //
 //        );
 
+
         TrajectoryActionBuilder redSample = myBot.getDrive().actionBuilder(new Pose2d(-35, -60, Math.toRadians(-180)))
-                .strafeTo(new Vector2d(-50, -50))//scores starting sample
-                .turn(Math.toRadians(45))
-                .turn(Math.toRadians(-135))
-                .strafeTo(new Vector2d(-48, -35))//grabs first block
-                .strafeTo(new Vector2d(-50, -50))//scores
-                .turn(Math.toRadians(135))
-                .turn(Math.toRadians(-135))
-                .strafeTo(new Vector2d(-57, -35))//grabs second block
-                .strafeTo(new Vector2d(-50, -50))//scores
-                .turn(Math.toRadians(135))
-                .turn(Math.toRadians(-85))
-                .strafeTo(new Vector2d(-57, -32))//grabs third block
-                .turn(Math.toRadians(80))
-                .strafeTo(new Vector2d(-50, -50))//scores
-                .turn(Math.toRadians(-40))
-                .strafeTo((new Vector2d(-47, -12)))
-                .strafeTo((new Vector2d(-22, -12)));
+//                .strafeToLinearHeading(new Vector2d(-60, -35), Math.toRadians(90));
+
+                .turn(Math.toRadians(360));
+
+//                .turn(Math.toRadians(45))
+//                .turn(Math.toRadians(-135))
+//                .strafeTo(new Vector2d(-48, -35))//grabs first block
+//                .strafeTo(new Vector2d(-50, -50))//scores
+//                .turn(Math.toRadians(135))
+//                .turn(Math.toRadians(-135))
+//                .strafeTo(new Vector2d(-57, -35))//grabs second block
+//                .strafeTo(new Vector2d(-50, -50))//scores
+//                .turn(Math.toRadians(135))
+//                .turn(Math.toRadians(-85))
+//                .strafeTo(new Vector2d(-57, -32))//grabs third block
+//                .turn(Math.toRadians(80))
+//                .strafeTo(new Vector2d(-50, -50))//scores
+//                .turn(Math.toRadians(-40))
+//                .strafeTo((new Vector2d(-47, -12)))
+//                .strafeTo((new Vector2d(-22, -12)));
 
 
         TrajectoryActionBuilder redSpecimen = myBot.getDrive().actionBuilder(new Pose2d(19, -66, Math.toRadians(-90)))
@@ -79,7 +83,7 @@ public class MeepMeepTesting {
                 .strafeTo(new Vector2d(2, -30))//hangs third block
                 .strafeTo(new Vector2d(60, -63)); //park
 
-       myBot.runAction(redSpecimen.build());
+       myBot.runAction(redSample.build());
 
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_DARK)
