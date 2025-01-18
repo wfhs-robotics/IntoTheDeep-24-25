@@ -44,7 +44,7 @@ public class Drive extends OpMode {
     @Override // Runs ONCE when a person hits START
     public void start() {
         // Init servos
-        robot.wrist.setPosition(0);
+        robot.wrist.setPosition(.3);
         robot.clawRight.setPosition(1);
         robot.clawLeft.setPosition(0);
     };
@@ -83,11 +83,7 @@ public class Drive extends OpMode {
             robot.arm.setVelocity(2100);
         }
 
-        if(robot.arm.getCurrentPosition() > 4500) {
-            robot.wrist.setPosition(0);
-        } else {
-            robot.wrist.setPosition(.3);
-        }
+
 
         // Slide Positions
         if (gamepad2.dpad_up) slideTarget = 3500;
@@ -102,18 +98,18 @@ public class Drive extends OpMode {
 
         // Slide Arm Control with toggling positions
         if(gamepad2.y && gamepad2.y != prevY) {
-            if (robot.arm.getTargetPosition() == 5300) {
+            if (robot.slideArm.getTargetPosition() == 2300) {
                 robot.slideArm.setTargetPosition(0);
                 robot.slideArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 robot.slideArm.setVelocity(2100);
             } else {
-                robot.slideArm.setTargetPosition(2000);
+                robot.slideArm.setTargetPosition(2300);
                 robot.slideArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 robot.slideArm.setVelocity(2100);
             }
         }
         if(gamepad2.a && gamepad2.a != prevA) {
-            if (robot.arm.getTargetPosition() == 1000) {
+            if (robot.slideArm.getTargetPosition() == 1000) {
                 robot.slideArm.setTargetPosition(0);
                 robot.slideArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 robot.slideArm.setVelocity(2100);
