@@ -107,13 +107,25 @@ public class ActionsCustom {
             }
         };
     }
-    public Action extend(int length) {
+    public Action slideHigh(int slidePos) {
         return new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                robot.slideArm.setTargetPosition(robot.slideArm.getTargetPosition() + length);
-                robot.slideArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.slideArm.setVelocity(500);
+                robot.slide.setTargetPosition(slidePos);
+                robot.slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.slide.setVelocity(2100);
+                return false;
+            }
+        };
+    }
+
+    public Action slideZero() {
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                robot.slide.setTargetPosition(0);
+                robot.slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.slide.setVelocity(2100);
                 return false;
             }
         };

@@ -91,7 +91,7 @@ public class Drive extends OpMode {
         else if (gamepad2.dpad_down) slideTarget = 0;
 
         if (gamepad2.dpad_up || gamepad2.dpad_right || gamepad2.dpad_down) {
-            robot.slide.setTargetPosition(slideTarget);
+            robot.slide.setTargetPosition(-slideTarget);
             robot.slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.slide.setVelocity(2100);
         }

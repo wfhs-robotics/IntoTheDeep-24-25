@@ -82,7 +82,7 @@ public class MeepMeepTesting {
                 .strafeTo(new Vector2d(2, -30))//hangs third block
                 .strafeTo(new Vector2d(60, -63)); //park
 
-       myBot.runAction(redSample.build());
+       myBot.runAction(redSpecimen.build());
 
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_DARK)

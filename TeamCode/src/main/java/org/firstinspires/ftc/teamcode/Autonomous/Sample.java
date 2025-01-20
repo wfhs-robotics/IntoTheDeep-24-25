@@ -49,23 +49,7 @@ public final class Sample extends LinearOpMode {
 
             TrajectoryActionBuilder startingBlock = drive.actionBuilder(startPose)
                     .strafeToLinearHeading(new Vector2d(-50, -42), Math.toRadians(45));//scores starting sample
-//                    .turn(Math.toRadians(45));
 
-//                    .turn(Math.toRadians(-135))
-//                    .strafeTo(new Vector2d(-48, -35))//grabs first block
-//                    .strafeTo(new Vector2d(-50, -50))//scores
-//                    .turn(Math.toRadians(135))
-//                    .turn(Math.toRadians(-135))
-//                    .strafeTo(new Vector2d(-57, -35))//grabs second block
-//                    .strafeTo(new Vector2d(-50, -50))//scores
-//                    .turn(Math.toRadians(135))
-//                    .turn(Math.toRadians(-85))
-//                    .strafeTo(new Vector2d(-57, -32))//grabs third block
-//                    .turn(Math.toRadians(80))
-//                    .strafeTo(new Vector2d(-50, -50))//scores
-//                    .turn(Math.toRadians(-40))
-//                    .strafeTo((new Vector2d(-47, -12)))
-//                    .strafeTo((new Vector2d(-22, -12)));
             TrajectoryActionBuilder toBlock1 = drive.actionBuilder(new Pose2d(-50, -42,  Math.toRadians(45)))
                     .turn(Math.toRadians(42));
 
