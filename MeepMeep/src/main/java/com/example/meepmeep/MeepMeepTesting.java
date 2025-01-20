@@ -51,36 +51,52 @@ public class MeepMeepTesting {
 
 
         TrajectoryActionBuilder redSpecimen = myBot.getDrive().actionBuilder(new Pose2d(19, -66, Math.toRadians(-90)))
-                .strafeTo(new Vector2d(8, -30))// strafe to submersible to hang pre loaded specimen
-                .strafeTo(new Vector2d(36, -34))
-                .strafeTo(new Vector2d(36, -13))
-                .turn(Math.toRadians((-180))) // turns to push first block
-                .strafeTo(new Vector2d(47, -13))// pushes first block
-                .strafeTo(new Vector2d(47, -62))
-                .strafeTo(new Vector2d(47, -13))
-                .strafeTo(new Vector2d(57, -13))//pushes second block
-                .strafeTo(new Vector2d(57, -62))
-                .strafeTo(new Vector2d(57, -13))
-                .strafeTo(new Vector2d(62, -13))//pushes third block
-                .strafeTo(new Vector2d(62, -62))
-                .strafeTo(new Vector2d(47, -55))
-                .strafeTo(new Vector2d(47, -64))//grab the first block
-                .strafeTo(new Vector2d(28, -49))
-                .turn(Math.toRadians((180)))
-                .strafeTo(new Vector2d(6, -30))//hangs first block
-                .strafeTo(new Vector2d(47, -55))
-                .turn(Math.toRadians((-180)))
-                .strafeTo(new Vector2d(47, -64))//grabs second block
-                .strafeTo(new Vector2d(28, -49))
-                .turn(Math.toRadians((180)))
-                .strafeTo(new Vector2d(4, -30))//hangs second block
-                .strafeTo(new Vector2d(47, -55))
-                .turn(Math.toRadians((-180)))
-                .strafeTo(new Vector2d(47, -64))// grabs third block
-                .strafeTo(new Vector2d(28, -49))
-                .turn(Math.toRadians((180)))
-                .strafeTo(new Vector2d(2, -30))//hangs third block
-                .strafeTo(new Vector2d(60, -63)); //park
+                .strafeTo(new Vector2d(7 , -30))
+                //arm
+                .strafeToLinearHeading(new Vector2d(48, -55), Math.toRadians(90))
+                .strafeTo(new Vector2d(48, -63))
+                .strafeToLinearHeading(new Vector2d(5 , -30), Math.toRadians(-90))
+                .strafeTo(new Vector2d(36 , -33))
+                .strafeToLinearHeading(new Vector2d(36, -15), Math.toRadians(90))
+                .strafeTo(new Vector2d(48, -15))
+                .strafeTo(new Vector2d(48, -60))
+                //sleep
+                .strafeTo(new Vector2d(48, -63))
+                .strafeToLinearHeading(new Vector2d(5 , -30), Math.toRadians(-90))
+                .strafeToLinearHeading(new Vector2d(50 , -62), Math.toRadians(90));
+
+
+
+//                .strafeTo(new Vector2d(8, -30))// strafe to submersible to hang pre loaded specimen
+//                .strafeTo(new Vector2d(36, -34))
+//                .strafeTo(new Vector2d(36, -13))
+//                .turn(Math.toRadians((-180))) // turns to push first block
+//                .strafeTo(new Vector2d(47, -13))// pushes first block
+//                .strafeTo(new Vector2d(47, -62))
+//                .strafeTo(new Vector2d(47, -13))
+//                .strafeTo(new Vector2d(57, -13))//pushes second block
+//                .strafeTo(new Vector2d(57, -62))
+//                .strafeTo(new Vector2d(57, -13))
+//                .strafeTo(new Vector2d(62, -13))//pushes third block
+//                .strafeTo(new Vector2d(62, -62))
+//                .strafeTo(new Vector2d(47, -55))
+//                .strafeTo(new Vector2d(47, -64))//grab the first block
+//                .strafeTo(new Vector2d(28, -49))
+//                .turn(Math.toRadians((180)))
+//                .strafeTo(new Vector2d(6, -30))//hangs first block
+//                .strafeTo(new Vector2d(47, -55))
+//                .turn(Math.toRadians((-180)))
+//                .strafeTo(new Vector2d(47, -64))//grabs second block
+//                .strafeTo(new Vector2d(28, -49))
+//                .turn(Math.toRadians((180)))
+//                .strafeTo(new Vector2d(4, -30))//hangs second block
+//                .strafeTo(new Vector2d(47, -55))
+//                .turn(Math.toRadians((-180)))
+//                .strafeTo(new Vector2d(47, -64))// grabs third block
+//                .strafeTo(new Vector2d(28, -49))
+//                .turn(Math.toRadians((180)))
+//                .strafeTo(new Vector2d(2, -30))//hangs third block
+//                .strafeTo(new Vector2d(60, -63)); //park
 
        myBot.runAction(redSpecimen.build());
 
