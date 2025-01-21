@@ -75,7 +75,7 @@ public class Drive extends OpMode {
         if (gamepad2.left_stick_y != 0) {
             // Manual arm movement
             robot.arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            robot.arm.setPower(gamepad2.left_stick_y);
+            robot.arm.setPower(-gamepad2.left_stick_y);
         } else {
             // Automatic arm control to hold position
             robot.arm.setTargetPosition(robot.arm.getCurrentPosition());

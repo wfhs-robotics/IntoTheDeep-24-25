@@ -28,9 +28,15 @@ public class MeepMeepTesting {
 //        );
 
 
-        TrajectoryActionBuilder redSample = myBot.getDrive().actionBuilder(new Pose2d(-35, -60, Math.toRadians(-180)))
-                .strafeToLinearHeading(new Vector2d(-50, -42), Math.toRadians(45))
-                .turn(Math.toRadians(35));
+        TrajectoryActionBuilder redSample = myBot.getDrive().actionBuilder(new Pose2d(new Vector2d(5, -32), Math.toRadians(-90)))
+                .strafeTo(new Vector2d(36 , -33))
+                .strafeToLinearHeading(new Vector2d(36, -15), Math.toRadians(90))
+                .strafeTo(new Vector2d(48, -15))
+                .strafeTo(new Vector2d(48, -60))
+                .strafeTo(new Vector2d(48, -55))
+                .strafeTo(new Vector2d(48, -15))
+                .strafeTo(new Vector2d(59, -15))
+                .strafeTo(new Vector2d(59, -60));;
 
 //                .turn(Math.toRadians(45))
 //                .turn(Math.toRadians(-135))
@@ -51,19 +57,35 @@ public class MeepMeepTesting {
 
 
         TrajectoryActionBuilder redSpecimen = myBot.getDrive().actionBuilder(new Pose2d(19, -66, Math.toRadians(-90)))
-                .strafeTo(new Vector2d(7 , -30))
-                //arm
+                .strafeTo(new Vector2d(2, -37)) // Inital Block
+                // To Human Player
                 .strafeToLinearHeading(new Vector2d(48, -55), Math.toRadians(90))
                 .strafeTo(new Vector2d(48, -63))
-                .strafeToLinearHeading(new Vector2d(5 , -30), Math.toRadians(-90))
-                .strafeTo(new Vector2d(36 , -33))
-                .strafeToLinearHeading(new Vector2d(36, -15), Math.toRadians(90))
+
+                //Hang 1
+                .strafeToLinearHeading(new Vector2d(5 , -32), Math.toRadians(-90))
+
+                // Drive to spikes
+                .strafeTo(new Vector2d(5, -42))
+                .strafeToLinearHeading(new Vector2d(48 , -35), Math.toRadians(90))
                 .strafeTo(new Vector2d(48, -15))
+
+                //Push Block 1
+                .strafeTo(new Vector2d(55, -15))
+                .strafeTo(new Vector2d(55, -60))
+
+                //Push Block 2
+                .strafeTo(new Vector2d(55, -15))
+                .strafeTo(new Vector2d(67, -15))
+                .strafeTo(new Vector2d(67, -60))
+
+                //Grab Specimen 1
                 .strafeTo(new Vector2d(48, -60))
-                //sleep
                 .strafeTo(new Vector2d(48, -63))
-                .strafeToLinearHeading(new Vector2d(5 , -30), Math.toRadians(-90))
-                .strafeToLinearHeading(new Vector2d(50 , -62), Math.toRadians(90));
+
+                // Hang 2
+                .strafeToLinearHeading(new Vector2d(15 , -32), Math.toRadians(-90));
+
 
 
 

@@ -26,14 +26,6 @@ public class ActionsCustom {
 
     public Action intake() { return new InstantAction(() -> robot.intake.setPower(1)); }
 
-    public Action openSlideClawRight() { return new InstantAction(() -> robot.clawRight.setPosition(0)); }
-
-    public Action closeSlideClawRight() { return new InstantAction(() -> robot.clawRight.setPosition(1)); }
-
-    public Action openSlideClawLeft() { return new InstantAction(() -> robot.clawLeft.setPosition(0)); }
-
-    public Action closeSlideClawLeft() { return new InstantAction(() -> robot.clawLeft.setPosition(1)); }
-
     public Action wristDown() { return new InstantAction(() -> robot.wrist.setPosition(.3)); }
     public Action wristPickup() { return new InstantAction(() -> robot.wrist.setPosition(.5)); }
 
@@ -107,7 +99,7 @@ public class ActionsCustom {
             }
         };
     }
-    public Action slideHigh(int slidePos) {
+    public Action slide(int slidePos) {
         return new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
@@ -131,18 +123,30 @@ public class ActionsCustom {
         };
     }
 
-
-    public Action openSlideClaw() {
-        return new SequentialAction(
-                openSlideClawLeft(),
-                openSlideClawRight());
+    public Action openClaw() {
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                robot.clawLeft.setPosition(1);
+                robot.clawRight.setPosition(0);
+                return false;
+            }
+        };
     }
 
-    public Action closeSlideClaw() {
-        return new SequentialAction(
-                closeSlideClawLeft(),
-                closeSlideClawRight());
+    public Action closeClaw() {
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                robot.clawLeft.setPosition(0);
+                robot.clawRight.setPosition(1);
+                return false;
+            }
+        };
     }
+
+
+
     public Action releaseObject() {
         return new SequentialAction(
                 intakeBack(),
