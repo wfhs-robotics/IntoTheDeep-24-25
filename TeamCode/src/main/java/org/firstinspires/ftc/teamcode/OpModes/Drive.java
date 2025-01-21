@@ -27,6 +27,7 @@ public class Drive extends OpMode {
     private FtcDashboard dash = FtcDashboard.getInstance();
     boolean prevA = false;
     boolean prevY = false;
+    boolean prevStick = false;
     int slideTarget = 0; // Default to 0
 
 
@@ -80,14 +81,25 @@ public class Drive extends OpMode {
             // Automatic arm control to hold position
             robot.arm.setTargetPosition(robot.arm.getCurrentPosition());
             robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.arm.setVelocity(2100);
+            robot.arm.setVelocity(3000);
+        }
+
+        if(gamepad2.left_stick_button && gamepad2.left_stick_button != prevStick) {
+            if(robot.arm.getTargetPosition() > 3500) {
+                robot.arm.setTargetPosition(0);
+            } else {
+                robot.arm.setTargetPosition(5200);
+            }
+            robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.arm.setVelocity(3000);
         }
 
 
 
+
         // Slide Positions
-        if (gamepad2.dpad_up) slideTarget = 3500;
-        else if (gamepad2.dpad_right) slideTarget = 1500;
+        if (gamepad2.dpad_up) slideTarget = 1800;
+        else if (gamepad2.dpad_right) slideTarget = 1000;
         else if (gamepad2.dpad_down) slideTarget = 0;
 
         if (gamepad2.dpad_up || gamepad2.dpad_right || gamepad2.dpad_down) {
@@ -96,29 +108,33 @@ public class Drive extends OpMode {
             robot.slide.setVelocity(2100);
         }
 
+        if(robot.wrist.getPosition() > 3500 ) {
+            robot.wrist.setPosition(.3);
+        } else {
+            robot.wrist.setPosition(.5);
+        }
+
         // Slide Arm Control with toggling positions
         if(gamepad2.y && gamepad2.y != prevY) {
             if (robot.slideArm.getTargetPosition() == 2300) {
                 robot.slideArm.setTargetPosition(0);
-                robot.slideArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.slideArm.setVelocity(2100);
             } else {
                 robot.slideArm.setTargetPosition(2300);
-                robot.slideArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.slideArm.setVelocity(2100);
             }
+            robot.slideArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.slideArm.setVelocity(2100);
         }
         if(gamepad2.a && gamepad2.a != prevA) {
             if (robot.slideArm.getTargetPosition() == 1000) {
                 robot.slideArm.setTargetPosition(0);
-                robot.slideArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.slideArm.setVelocity(2100);
             } else {
                 robot.slideArm.setTargetPosition(1000);
-                robot.slideArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.slideArm.setVelocity(2100);
             }
+            robot.slideArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.slideArm.setVelocity(2100);
         }
+
+
 
         // Claw Control
         if(gamepad2.right_bumper) {
@@ -144,6 +160,7 @@ public class Drive extends OpMode {
 
         prevY = gamepad2.y;
         prevA = gamepad2.a;
+        prevStick = gamepad2.left_stick_button;
     }
 
 

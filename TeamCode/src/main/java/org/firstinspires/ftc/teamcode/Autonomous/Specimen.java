@@ -16,19 +16,25 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Misc.ActionsCustom;
+import org.firstinspires.ftc.teamcode.Misc.ArmPosStorage;
+import org.firstinspires.ftc.teamcode.Misc.Hardware;
 import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.RoadRunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.RoadRunner.tuning.TuningOpModes;
 @Config
 @Autonomous
 public final class Specimen extends LinearOpMode {
+    Hardware robot = new Hardware();
     public static int x1 = 5;
     public static int y1 = -30;
     public static int heading = -90;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        ActionsCustom actionsCustom = new ActionsCustom(hardwareMap);
+        robot.init(hardwareMap);
+
+        ActionsCustom actionsCustom = new ActionsCustom(robot);
+
 
         Pose2d startPose = new Pose2d(19, -66, Math.toRadians(-90));
         if (TuningOpModes.DRIVE_CLASS.equals(PinpointDrive.class)) {
@@ -127,7 +133,6 @@ public final class Specimen extends LinearOpMode {
                     actionsCustom.slideZero(),
                     new SleepAction(1)
             ));
-
 
         } else {
             throw new RuntimeException();

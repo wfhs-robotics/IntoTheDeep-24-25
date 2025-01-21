@@ -12,13 +12,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 @Config
 public class ActionsCustom {
-    Hardware robot = new Hardware();
+    Hardware robot;
 
 
 
-    public ActionsCustom(HardwareMap hardwareMap) {
-        robot.init(hardwareMap);
-    }
+    public ActionsCustom(Hardware robot) { this.robot = robot; }
 
     public Action intakeBack() { return new InstantAction(() -> robot.intake.setPower(-1)); }
 

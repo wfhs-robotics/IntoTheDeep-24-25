@@ -16,11 +16,14 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Misc.ActionsCustom;
+import org.firstinspires.ftc.teamcode.Misc.ArmPosStorage;
+import org.firstinspires.ftc.teamcode.Misc.Hardware;
 import org.firstinspires.ftc.teamcode.RoadRunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.RoadRunner.tuning.TuningOpModes;
 @Config
 @Autonomous
 public final class Sample extends LinearOpMode {
+    Hardware robot = new Hardware();
     public static int x1 = -60;
     public static int y1= -34;
     public static int heading = 90;
@@ -37,7 +40,9 @@ public final class Sample extends LinearOpMode {
     public static int slideArmHighPos = 2200;
     @Override
     public void runOpMode() throws InterruptedException {
-        ActionsCustom actionsCustom = new ActionsCustom(hardwareMap);
+        robot.init(hardwareMap);
+
+        ActionsCustom actionsCustom = new ActionsCustom(robot);
 
 
         Pose2d startPose = new Pose2d(-36, -56, Math.toRadians(-180));
@@ -100,19 +105,10 @@ public final class Sample extends LinearOpMode {
                     new SleepAction(2),
                   actionsCustom.releaseObject()
             ));
+            ArmPosStorage.armPos = robot.arm.getCurrentPosition();
+
         } else {
             throw new RuntimeException();
         }
-    }
-
-
-    public Action sleepAction(int milliseconds) {
-        return new Action() {
-            @Override
-            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                sleep(milliseconds);
-                return false;
-            }
-        };
     }
 }
