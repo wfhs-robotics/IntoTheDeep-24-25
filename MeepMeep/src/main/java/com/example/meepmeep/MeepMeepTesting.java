@@ -28,15 +28,12 @@ public class MeepMeepTesting {
 //        );
 
 
-        TrajectoryActionBuilder redSample = myBot.getDrive().actionBuilder(new Pose2d(new Vector2d(5, -32), Math.toRadians(-90)))
-                .strafeTo(new Vector2d(36 , -33))
-                .strafeToLinearHeading(new Vector2d(36, -15), Math.toRadians(90))
-                .strafeTo(new Vector2d(48, -15))
-                .strafeTo(new Vector2d(48, -60))
-                .strafeTo(new Vector2d(48, -55))
-                .strafeTo(new Vector2d(48, -15))
-                .strafeTo(new Vector2d(59, -15))
-                .strafeTo(new Vector2d(59, -60));;
+        TrajectoryActionBuilder redSample = myBot.getDrive().actionBuilder(new Pose2d(new Vector2d(-36, -56), Math.toRadians(-180)))
+                .strafeToLinearHeading(new Vector2d(-50, -42), Math.toRadians(45))//scores starting sample
+                .turn(Math.toRadians(42))
+                .turn(Math.toRadians(-42))
+                .turn(Math.toRadians(-45))
+                .turnTo(Math.toRadians(45));
 
 //                .turn(Math.toRadians(45))
 //                .turn(Math.toRadians(-135))
@@ -120,7 +117,7 @@ public class MeepMeepTesting {
 //                .strafeTo(new Vector2d(2, -30))//hangs third block
 //                .strafeTo(new Vector2d(60, -63)); //park
 
-       myBot.runAction(redSpecimen.build());
+       myBot.runAction(redSample.build());
 
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_DARK)

@@ -56,10 +56,10 @@ public final class Sample extends LinearOpMode {
                     .strafeToLinearHeading(new Vector2d(-50, -42), Math.toRadians(45));//scores starting sample
 
             TrajectoryActionBuilder toBlock1 = drive.actionBuilder(new Pose2d(-50, -42,  Math.toRadians(45)))
-                    .turn(Math.toRadians(42));
+                    .turn(Math.toRadians(44));
 
-            TrajectoryActionBuilder stackBlock1 = drive.actionBuilder(new Pose2d(-50, -42, Math.toRadians(87)))
-                    .turn(Math.toRadians(-42));
+            TrajectoryActionBuilder stackBlock1 = drive.actionBuilder(new Pose2d(-50, -42, Math.toRadians(85)))
+                    .turn(Math.toRadians(-44));
 
             TrajectoryActionBuilder toBlock2 = drive.actionBuilder(new Pose2d(-50, -42,  Math.toRadians(45)))
                     .turn(Math.toRadians(turn));
