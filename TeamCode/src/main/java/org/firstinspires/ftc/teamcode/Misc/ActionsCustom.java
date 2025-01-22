@@ -26,6 +26,7 @@ public class ActionsCustom {
 
     public Action wristDown() { return new InstantAction(() -> robot.wrist.setPosition(.3)); }
     public Action wristPickup() { return new InstantAction(() -> robot.wrist.setPosition(.5)); }
+    public Action wristReset() { return new InstantAction(() -> robot.wrist.setPosition(0)); }
 
     public Action armHigh(int armPos) {
         return new Action() {

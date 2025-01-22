@@ -53,7 +53,7 @@ public final class ResetArm extends LinearOpMode {
 
             Actions.runBlocking( new SequentialAction(
                     new ParallelAction(
-                    actionsCustom.wristDown(),
+                    actionsCustom.wristReset(),
                     armReset
                     ),
                     new SleepAction(5)

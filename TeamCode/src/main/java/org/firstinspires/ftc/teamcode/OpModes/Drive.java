@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.*;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Misc.ArmPosStorage;
 import org.firstinspires.ftc.teamcode.Misc.Hardware;
 import org.firstinspires.ftc.teamcode.Misc.PoseStorage;
 import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
@@ -29,7 +30,9 @@ public class Drive extends OpMode {
     boolean prevY = false;
     boolean prevStick = false;
     int slideTarget = 0; // Default to 0
-
+    private int lastPressedYPosition = 0;
+    private int lastPressedAPosition = 0;
+    private boolean isMovingToPosition = false;
 
 
 
@@ -69,11 +72,20 @@ public class Drive extends OpMode {
         pickupLogic();
 
         drive.updatePoseEstimate();
+        ArmPosStorage.armPos = robot.arm.getCurrentPosition();
     }
 
     public void pickupLogic() {
         // Manual or automatic arm control
-        if (gamepad2.left_stick_y != 0) {
+        if(gamepad2.left_stick_button && gamepad2.left_stick_button != prevStick) {
+            if(robot.arm.getTargetPosition() > 3500) {
+                robot.arm.setTargetPosition(0);
+            } else {
+                robot.arm.setTargetPosition(5200);
+            }
+            robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.arm.setVelocity(3000);
+        } else if (gamepad2.left_stick_y != 0) {
             // Manual arm movement
             robot.arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             robot.arm.setPower(-gamepad2.left_stick_y);
@@ -84,14 +96,64 @@ public class Drive extends OpMode {
             robot.arm.setVelocity(3000);
         }
 
-        if(gamepad2.left_stick_button && gamepad2.left_stick_button != prevStick) {
-            if(robot.arm.getTargetPosition() > 3500) {
-                robot.arm.setTargetPosition(0);
+
+
+
+        // Add these at the class level
+
+
+// In your loop/periodic method
+        if(gamepad2.y && gamepad2.y != prevY) {
+            if (Math.abs(robot.slideArm.getCurrentPosition() - 2050) < 50 && lastPressedYPosition == 2050) {
+                // If we're close to 2050 and that was our last Y press target, go to 0
+                robot.slideArm.setTargetPosition(0);
+                lastPressedYPosition = 0;
             } else {
-                robot.arm.setTargetPosition(5200);
+                // Otherwise, go to 2050
+                robot.slideArm.setTargetPosition(2050);
+                lastPressedYPosition = 2050;
             }
-            robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.arm.setVelocity(3000);
+            isMovingToPosition = true;
+            robot.slideArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.slideArm.setVelocity(2100);
+        }
+        else if(gamepad2.a && gamepad2.a != prevA) {
+            if (Math.abs(robot.slideArm.getCurrentPosition() - 1000) < 50 && lastPressedAPosition == 1000) {
+                // If we're close to 1000 and that was our last A press target, go to 0
+                robot.slideArm.setTargetPosition(0);
+                lastPressedAPosition = 0;
+            } else {
+                // Otherwise, go to 1000
+                robot.slideArm.setTargetPosition(1000);
+                lastPressedAPosition = 1000;
+            }
+            isMovingToPosition = true;
+            robot.slideArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.slideArm.setVelocity(2100);
+        }
+        else if (gamepad2.right_stick_y != 0) {
+            // Only allow stick control if we're not actively moving to a position
+            if (!isMovingToPosition) {
+                robot.slideArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                robot.slideArm.setPower(-gamepad2.right_stick_y);
+            }
+        }
+        else {
+            // If we're moving to a position, check if we've reached it
+            if (isMovingToPosition) {
+                int currentPos = robot.slideArm.getCurrentPosition();
+                int targetPos = robot.slideArm.getTargetPosition();
+                if (Math.abs(currentPos - targetPos) < 50) {  // Within 50 encoder ticks
+                    isMovingToPosition = false;
+                }
+            }
+
+            // Hold position
+            if (!isMovingToPosition) {
+                robot.slideArm.setTargetPosition(robot.slideArm.getCurrentPosition());
+                robot.slideArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.slideArm.setVelocity(3000);
+            }
         }
 
 
@@ -108,31 +170,14 @@ public class Drive extends OpMode {
             robot.slide.setVelocity(2100);
         }
 
-        if(robot.wrist.getPosition() > 3500 ) {
+        if(robot.arm.getCurrentPosition() > 3500 ) {
             robot.wrist.setPosition(.3);
         } else {
             robot.wrist.setPosition(.5);
         }
 
         // Slide Arm Control with toggling positions
-        if(gamepad2.y && gamepad2.y != prevY) {
-            if (robot.slideArm.getTargetPosition() == 2300) {
-                robot.slideArm.setTargetPosition(0);
-            } else {
-                robot.slideArm.setTargetPosition(2300);
-            }
-            robot.slideArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.slideArm.setVelocity(2100);
-        }
-        if(gamepad2.a && gamepad2.a != prevA) {
-            if (robot.slideArm.getTargetPosition() == 1000) {
-                robot.slideArm.setTargetPosition(0);
-            } else {
-                robot.slideArm.setTargetPosition(1000);
-            }
-            robot.slideArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.slideArm.setVelocity(2100);
-        }
+
 
 
 
