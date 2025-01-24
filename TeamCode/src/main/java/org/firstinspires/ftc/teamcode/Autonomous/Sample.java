@@ -29,6 +29,8 @@ public final class Sample extends LinearOpMode {
     public static int heading = 90;
     public static int turn = 70;
 
+    public static int turn1 = 68;
+
     public static int armPickupPos = 600;
     public static int slideArmPickupPos = 1700;
 
@@ -56,15 +58,15 @@ public final class Sample extends LinearOpMode {
                     .strafeToLinearHeading(new Vector2d(-50, -42), Math.toRadians(45));//scores starting sample
 
             TrajectoryActionBuilder toBlock1 = drive.actionBuilder(new Pose2d(-50, -42,  Math.toRadians(45)))
-                    .turn(Math.toRadians(44));
+                    .turn(Math.toRadians(46));
 
-            TrajectoryActionBuilder stackBlock1 = drive.actionBuilder(new Pose2d(-50, -42, Math.toRadians(85)))
-                    .turn(Math.toRadians(-44));
+            TrajectoryActionBuilder stackBlock1 = drive.actionBuilder(new Pose2d(-50, -42, Math.toRadians(45 + 46)))
+                    .turn(Math.toRadians(-46));
 
             TrajectoryActionBuilder toBlock2 = drive.actionBuilder(new Pose2d(-50, -42,  Math.toRadians(45)))
-                    .turn(Math.toRadians(turn));
+                    .turn(Math.toRadians(turn1));
 
-            TrajectoryActionBuilder stackBlock2 = drive.actionBuilder(new Pose2d(-50, -42,  Math.toRadians(115)))
+            TrajectoryActionBuilder stackBlock2 = drive.actionBuilder(new Pose2d(-50, -42,  Math.toRadians(45 + turn1)))
                     .turnTo(Math.toRadians(45));
 
 

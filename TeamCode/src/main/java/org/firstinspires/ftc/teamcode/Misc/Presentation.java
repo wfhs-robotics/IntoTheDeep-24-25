@@ -39,11 +39,11 @@ public class Presentation extends LinearOpMode {
                     robot.intake.setPower(intakePower);
                 }
                 if(clawOpen) {
-                    robot.clawRight.setPosition(0);
-                    robot.clawLeft.setPosition(1);
+                    robot.slideClawRight.setPosition(0);
+                    robot.slideClawLeft.setPosition(1);
                 } else {
-                    robot.clawRight.setPosition(1);
-                    robot.clawLeft.setPosition(0);
+                    robot.slideClawRight.setPosition(1);
+                    robot.slideClawLeft.setPosition(0);
                 }
             }
         }

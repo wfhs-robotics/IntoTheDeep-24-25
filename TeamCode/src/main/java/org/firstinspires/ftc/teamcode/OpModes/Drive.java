@@ -48,9 +48,11 @@ public class Drive extends OpMode {
     @Override // Runs ONCE when a person hits START
     public void start() {
         // Init servos
-        robot.wrist.setPosition(.3);
-        robot.clawRight.setPosition(1);
-        robot.clawLeft.setPosition(0);
+        robot.wrist.setPosition(.75);
+        robot.slideClawRight.setPosition(1);
+        robot.slideClawLeft.setPosition(0);
+        robot.armClawRight.setPosition(1);
+        robot.armClawLeft.setPosition(0);
     };
 
     // LOOPS while the until the player hits STOP
@@ -161,35 +163,41 @@ public class Drive extends OpMode {
 
         // Slide Positions
         if (gamepad2.dpad_up) slideTarget = 1800;
-        else if (gamepad2.dpad_right) slideTarget = 1000;
+        else if (gamepad2.dpad_right) slideTarget = 300;
+        else if (gamepad2.dpad_left) slideTarget = slideTarget - 100;
         else if (gamepad2.dpad_down) slideTarget = 0;
 
-        if (gamepad2.dpad_up || gamepad2.dpad_right || gamepad2.dpad_down) {
+        if (gamepad2.dpad_up || gamepad2.dpad_right || gamepad2.dpad_down || gamepad2.dpad_left) {
             robot.slide.setTargetPosition(-slideTarget);
             robot.slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.slide.setVelocity(2100);
         }
-
-        if(robot.arm.getCurrentPosition() > 3500 ) {
-            robot.wrist.setPosition(.3);
-        } else {
-            robot.wrist.setPosition(.5);
-        }
-
-        // Slide Arm Control with toggling positions
+//
+//        if(robot.arm.getCurrentPosition() > 3500 ) {
+//            robot.wrist.setPosition(.3);
+//        } else {
+//            robot.wrist.setPosition(.5);
+//        }
+//
+//        // Slide Arm Control with toggling positions
 
 
 
 
         // Claw Control
         if(gamepad2.right_bumper) {
-            robot.clawRight.setPosition(1);
-            robot.clawLeft.setPosition(0);
+            robot.slideClawRight.setPosition(1);
+            robot.slideClawLeft.setPosition(0);
+            robot.armClawRight.setPosition(1);
+            robot.armClawLeft.setPosition(0);
         }
         if(gamepad2.left_bumper) {
-            robot.clawRight.setPosition(0);
-            robot.clawLeft.setPosition(1);
+            robot.slideClawRight.setPosition(0);
+            robot.slideClawLeft.setPosition(1);
+            robot.armClawRight.setPosition(0);
+            robot.armClawLeft.setPosition(1);
         }
+
 
         if(gamepad2.right_trigger != 0) {
             robot.intake.setPower(gamepad2.right_trigger);

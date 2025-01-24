@@ -9,7 +9,7 @@ import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
+
 @Config
 public class ActionsCustom {
     Hardware robot;
@@ -126,8 +126,8 @@ public class ActionsCustom {
         return new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                robot.clawLeft.setPosition(1);
-                robot.clawRight.setPosition(0);
+                robot.slideClawLeft.setPosition(1);
+                robot.slideClawRight.setPosition(0);
                 return false;
             }
         };
@@ -137,8 +137,8 @@ public class ActionsCustom {
         return new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                robot.clawLeft.setPosition(0);
-                robot.clawRight.setPosition(1);
+                robot.slideClawLeft.setPosition(0);
+                robot.slideClawRight.setPosition(1);
                 return false;
             }
         };
@@ -155,7 +155,7 @@ public class ActionsCustom {
     public Action pickupObject() {
         return new SequentialAction(
                 intake(),
-                new SleepAction(0.8),
+                new SleepAction(1),
                 intakeStop());
     }
 

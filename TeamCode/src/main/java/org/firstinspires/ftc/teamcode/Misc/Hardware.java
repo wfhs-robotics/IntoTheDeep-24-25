@@ -18,9 +18,11 @@ public class Hardware {
     public DcMotorEx slide;
     public DcMotorEx slideArm;
     public Servo wrist;
-    public Servo clawLeft;
-    public Servo clawRight;
+    public Servo slideClawLeft;
+    public Servo slideClawRight;
     public CRServo intake;
+    public Servo armClawLeft;
+    public Servo armClawRight;
 
     private HardwareMap hwMap;
 
@@ -40,8 +42,10 @@ public class Hardware {
         slideArm = hwMap.get(DcMotorEx.class, "slideArm");
         arm = hwMap.get(DcMotorEx.class, "arm");
         wrist = hwMap.get(Servo.class, "wrist");
-        clawRight = hwMap.get(Servo.class, "slideClawRight");
-        clawLeft = hwMap.get(Servo.class, "slideClawLeft");
+        slideClawRight = hwMap.get(Servo.class, "slideClawRight");
+        slideClawLeft = hwMap.get(Servo.class, "slideClawLeft");
+        armClawRight = hwMap.get(Servo.class, "armClawRight");
+        armClawLeft = hwMap.get(Servo.class, "armClawLeft");
         intake = hwMap.get(CRServo.class, "intake");
 
 
