@@ -143,6 +143,27 @@ public class ActionsCustom {
             }
         };
     }
+    public Action openArmClaw() {
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                robot.armClawLeft.setPosition(0);
+                robot.armClawRight.setPosition(1);
+                return false;
+            }
+        };
+    }
+
+    public Action closeArmClaw() {
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                robot.armClawLeft.setPosition(1);
+                robot.armClawRight.setPosition(0);
+                return false;
+            }
+        };
+    }
 
 
 
@@ -161,7 +182,6 @@ public class ActionsCustom {
 
     public Action stackHigh(int armPos, int slidePos) {
         return new SequentialAction(
-                wristDown(),
                 armHigh(armPos),
                 slideArmHigh(slidePos));
     }

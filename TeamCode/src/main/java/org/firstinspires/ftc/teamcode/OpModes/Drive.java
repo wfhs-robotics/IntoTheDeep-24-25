@@ -51,8 +51,8 @@ public class Drive extends OpMode {
         robot.wrist.setPosition(.75);
         robot.slideClawRight.setPosition(1);
         robot.slideClawLeft.setPosition(0);
-        robot.armClawRight.setPosition(1);
-        robot.armClawLeft.setPosition(0);
+        robot.armClawRight.setPosition(0);
+        robot.armClawLeft.setPosition(1);
     };
 
     // LOOPS while the until the player hits STOP
@@ -106,14 +106,14 @@ public class Drive extends OpMode {
 
 // In your loop/periodic method
         if(gamepad2.y && gamepad2.y != prevY) {
-            if (Math.abs(robot.slideArm.getCurrentPosition() - 2050) < 50 && lastPressedYPosition == 2050) {
+            if (Math.abs(robot.slideArm.getCurrentPosition() - 2400) < 50 && lastPressedYPosition == 2400) {
                 // If we're close to 2050 and that was our last Y press target, go to 0
                 robot.slideArm.setTargetPosition(0);
                 lastPressedYPosition = 0;
             } else {
                 // Otherwise, go to 2050
-                robot.slideArm.setTargetPosition(2050);
-                lastPressedYPosition = 2050;
+                robot.slideArm.setTargetPosition(2400);
+                lastPressedYPosition = 2400;
             }
             isMovingToPosition = true;
             robot.slideArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -134,12 +134,25 @@ public class Drive extends OpMode {
             robot.slideArm.setVelocity(2100);
         }
         else if (gamepad2.right_stick_y != 0) {
+            if(robot.arm.getCurrentPosition() > 3000) {
+                robot.slideArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                robot.slideArm.setPower(-gamepad2.right_stick_y);
+            } else {
+                if(robot.slideArm.getCurrentPosition() <= 2500) {
+                    robot.slideArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                    robot.slideArm.setPower(-gamepad2.right_stick_y);
+            } else {
+                    robot.slideArm.setTargetPosition(2400);
+                    robot.slideArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.slideArm.setVelocity(2100);
+                }
             // Only allow stick control if we're not actively moving to a position
             if (!isMovingToPosition) {
                 robot.slideArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 robot.slideArm.setPower(-gamepad2.right_stick_y);
             }
         }
+            }
         else {
             // If we're moving to a position, check if we've reached it
             if (isMovingToPosition) {
@@ -188,14 +201,14 @@ public class Drive extends OpMode {
         if(gamepad2.right_bumper) {
             robot.slideClawRight.setPosition(1);
             robot.slideClawLeft.setPosition(0);
-            robot.armClawRight.setPosition(1);
-            robot.armClawLeft.setPosition(0);
+            robot.armClawRight.setPosition(0);
+            robot.armClawLeft.setPosition(1);
         }
         if(gamepad2.left_bumper) {
             robot.slideClawRight.setPosition(0);
             robot.slideClawLeft.setPosition(1);
-            robot.armClawRight.setPosition(0);
-            robot.armClawLeft.setPosition(1);
+            robot.armClawRight.setPosition(1);
+            robot.armClawLeft.setPosition(0);
         }
 
 
@@ -214,6 +227,9 @@ public class Drive extends OpMode {
         prevY = gamepad2.y;
         prevA = gamepad2.a;
         prevStick = gamepad2.left_stick_button;
+        telemetry.addData("armPos", robot.arm.getCurrentPosition());
+        telemetry.addData("slideArmPos", robot.slideArm.getCurrentPosition());
+        telemetry.update();
     }
 
 

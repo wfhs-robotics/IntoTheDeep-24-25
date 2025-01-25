@@ -37,8 +37,8 @@ public final class Sample extends LinearOpMode {
     public static int armPickupPos1 = 650;
     public static int slideArmPickupPos1 = 2050;
 
-    public static int armHighPos = 5200;
-    public static int slideArmHighPosInit = 2050;
+    public static int armHighPos = 3700;
+    public static int slideArmHighPosInit = 2300;
     public static int slideArmHighPos = 2200;
     @Override
     public void runOpMode() throws InterruptedException {
@@ -55,7 +55,9 @@ public final class Sample extends LinearOpMode {
             waitForStart();
 
             TrajectoryActionBuilder startingBlock = drive.actionBuilder(startPose)
-                    .strafeToLinearHeading(new Vector2d(-50, -42), Math.toRadians(45));//scores starting sample
+                    .strafeToLinearHeading(new Vector2d(-50, -42), Math.toRadians(-135));//scores starting sample
+            TrajectoryActionBuilder toBucket = drive.actionBuilder(new Pose2d(new Vector2d(-50, -42), Math.toRadians(-135)))
+                    .strafeTo(new Vector2d(-60, -52));//scores starting sample
 
             TrajectoryActionBuilder toBlock1 = drive.actionBuilder(new Pose2d(-50, -42,  Math.toRadians(45)))
                     .turn(Math.toRadians(46));
@@ -71,42 +73,53 @@ public final class Sample extends LinearOpMode {
 
 
             Actions.runBlocking( new SequentialAction(
+                    actionsCustom.closeArmClaw(),
+
                     // Stack Initial Block
                     new ParallelAction(
-                            startingBlock.build(),
-                            actionsCustom.stackHigh(armHighPos, slideArmHighPosInit)
-                    ),
-                    new SleepAction(2),
-                    actionsCustom.releaseObject(),
+                            actionsCustom.stackHigh(armHighPos, slideArmHighPosInit - 1000),
+                            startingBlock.build()
 
-                    //Stack Block 1
-                    new ParallelAction(
-                            actionsCustom.pickupHeight(armPickupPos, slideArmPickupPos),
-                            new SleepAction(3),
-                            toBlock1.build()
                     ),
-                    actionsCustom.pickupObject(),
-                    new ParallelAction(
-                            actionsCustom.stackHigh(armHighPos, slideArmHighPos),
-                            stackBlock2.build()
-                    ),
-                    new SleepAction(2),
-                    actionsCustom.releaseObject(),
+                    actionsCustom.slideArmHigh(slideArmHighPosInit + 1000),
 
-                    //Stack Block 2
-            new ParallelAction(
-                    actionsCustom.pickupHeight(armPickupPos1, slideArmPickupPos1),
-                    new SleepAction(3),
-                    toBlock2.build()
-            ),
-                    actionsCustom.pickupObject(),
-                    new ParallelAction(
-                            actionsCustom.stackHigh(armHighPos, slideArmHighPos),
-                            stackBlock1.build()
-                   ),
+                    toBucket.build(),
+
                     new SleepAction(2),
-                  actionsCustom.releaseObject()
+                    actionsCustom.openArmClaw(),
+                    new SleepAction(.5),
+                    actionsCustom.openArmClaw()
             ));
+
+
+//                    //Stack Block 1
+//                    new ParallelAction(
+//                            actionsCustom.pickupHeight(armPickupPos, slideArmPickupPos),
+//                            new SleepAction(3),
+//                            toBlock1.build()
+//                    ),
+//                    actionsCustom.pickupObject(),
+//                    new ParallelAction(
+//                            actionsCustom.stackHigh(armHighPos, slideArmHighPos),
+//                            stackBlock2.build()
+//                    ),
+//                    new SleepAction(2),
+//                    actionsCustom.releaseObject(),
+//
+//                    //Stack Block 2
+//            new ParallelAction(
+//                    actionsCustom.pickupHeight(armPickupPos1, slideArmPickupPos1),
+//                    new SleepAction(3),
+//                    toBlock2.build()
+//            ),
+//                    actionsCustom.pickupObject(),
+//                    new ParallelAction(
+//                            actionsCustom.stackHigh(armHighPos, slideArmHighPos),
+//                            stackBlock1.build()
+//                   ),
+//                    new SleepAction(2),
+//                  actionsCustom.releaseObject()
+//            ));
             ArmPosStorage.armPos = robot.arm.getCurrentPosition();
 
         } else {
