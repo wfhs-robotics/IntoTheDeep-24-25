@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoImplEx;
 
 @Config
 public class Hardware {
@@ -23,6 +24,7 @@ public class Hardware {
     public CRServo intake;
     public Servo armClawLeft;
     public Servo armClawRight;
+    public ServoImplEx test;
 
     private HardwareMap hwMap;
 
@@ -46,6 +48,7 @@ public class Hardware {
         slideClawLeft = hwMap.get(Servo.class, "slideClawLeft");
         armClawRight = hwMap.get(Servo.class, "armClawRight");
         armClawLeft = hwMap.get(Servo.class, "armClawLeft");
+        wrist = hwMap.get(Servo.class, "wrist");
         intake = hwMap.get(CRServo.class, "intake");
 
 

@@ -75,7 +75,7 @@ public final class Specimen2 extends LinearOpMode {
 
             Actions.runBlocking( new SequentialAction(
                     //Initial Hang
-                    actionsCustom.slideArmZero(),
+                    actionsCustom.slideArm(0),
 
                     new ParallelAction(
                             initialHang.build(),
@@ -85,7 +85,7 @@ public final class Specimen2 extends LinearOpMode {
 
                     // Block 1
                     new ParallelAction(
-                            actionsCustom.slideZero(),
+                            actionsCustom.slide(0),
                             actionsCustom.openClaw(),
 //                            toHumanPlayer.build()
                             pushBlocks.build()
@@ -125,10 +125,10 @@ public final class Specimen2 extends LinearOpMode {
                             actionsCustom.slide(-1800),
                             hang2.build()
                     ),
-                    actionsCustom.slideArmHigh(1500),
+                    actionsCustom.slideArm(1500),
                     new SleepAction(.5),
                     actionsCustom.openArmClaw(),
-                    actionsCustom.slideZero(),
+                    actionsCustom.slide(0),
 
 
                     new SleepAction(1)

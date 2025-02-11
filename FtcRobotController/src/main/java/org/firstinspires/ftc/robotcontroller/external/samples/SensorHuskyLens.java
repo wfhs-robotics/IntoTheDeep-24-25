@@ -113,7 +113,8 @@ public class SensorHuskyLens extends LinearOpMode {
          *
          * Other algorithm choices for FTC might be: OBJECT_RECOGNITION, COLOR_RECOGNITION or OBJECT_CLASSIFICATION.
          */
-        huskyLens.selectAlgorithm(HuskyLens.Algorithm.TAG_RECOGNITION);
+        huskyLens.selectAlgorithm(HuskyLens.Algorithm.OBJECT_RECOGNITION);
+
 
         telemetry.update();
         waitForStart();

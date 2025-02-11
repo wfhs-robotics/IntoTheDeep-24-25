@@ -29,7 +29,8 @@ public class MeepMeepTesting {
 
 
         TrajectoryActionBuilder redSample = myBot.getDrive().actionBuilder(new Pose2d(new Vector2d(-36, -56), Math.toRadians(-180)))
-                .strafeToLinearHeading(new Vector2d(-50, -42), Math.toRadians(-135));
+                .strafeToLinearHeading(new Vector2d(-50, -42), Math.toRadians(-135))
+                .turn(Math.toRadians(-140));
                 
 //                .splineToConstantHeading(new Vector2d(-45, -15), Math.toRadians(-45));
 

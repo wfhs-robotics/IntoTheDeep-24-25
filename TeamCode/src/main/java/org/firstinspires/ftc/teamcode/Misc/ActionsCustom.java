@@ -28,31 +28,19 @@ public class ActionsCustom {
     public Action wristPickup() { return new InstantAction(() -> robot.wrist.setPosition(.5)); }
     public Action wristReset() { return new InstantAction(() -> robot.wrist.setPosition(0)); }
 
-    public Action armHigh(int armPos) {
+    public Action arm(int armPos) {
         return new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
                 robot.arm.setTargetPosition(armPos);
                 robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.arm.setVelocity(2100);
+                robot.arm.setVelocity(2800);
                 return false;
             }
         };
     }
 
-    public Action armZero() {
-        return new Action() {
-            @Override
-            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                robot.arm.setTargetPosition(0);
-                robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.arm.setVelocity(2100);
-                return false;
-            }
-        };
-    }
-
-    public Action slideArmHigh(int slidePos) {
+    public Action slideArm(int slidePos) {
         return new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
@@ -64,40 +52,6 @@ public class ActionsCustom {
         };
     }
 
-    public Action slideArmZero() {
-        return new Action() {
-            @Override
-            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                robot.slideArm.setTargetPosition(0);
-                robot.slideArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.slideArm.setVelocity(2100);
-                return false;
-            }
-        };
-    }
-    public Action slideArmPickupHeight(int slideHeight) {
-        return new Action() {
-            @Override
-            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                robot.slideArm.setTargetPosition(slideHeight);
-                robot.slideArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.slideArm.setVelocity(2100);
-                return false;
-            }
-        };
-    }
-
-    public Action armPickupHeight(int armPickupHeight) {
-        return new Action() {
-            @Override
-            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                robot.arm.setTargetPosition(armPickupHeight);
-                robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.arm.setVelocity(2100);
-                return false;
-            }
-        };
-    }
     public Action slide(int slidePos) {
         return new Action() {
             @Override
@@ -110,17 +64,6 @@ public class ActionsCustom {
         };
     }
 
-    public Action slideZero() {
-        return new Action() {
-            @Override
-            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                robot.slide.setTargetPosition(0);
-                robot.slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.slide.setVelocity(2100);
-                return false;
-            }
-        };
-    }
 
     public Action openClaw() {
         return new Action() {
@@ -164,34 +107,4 @@ public class ActionsCustom {
             }
         };
     }
-
-
-
-    public Action releaseObject() {
-        return new SequentialAction(
-                intakeBack(),
-                new SleepAction(0.8),
-                intakeStop());
-    }
-    public Action pickupObject() {
-        return new SequentialAction(
-                intake(),
-                new SleepAction(1),
-                intakeStop());
-    }
-
-    public Action stackHigh(int armPos, int slidePos) {
-        return new SequentialAction(
-                armHigh(armPos),
-                slideArmHigh(slidePos));
-    }
-    public Action pickupHeight(int armHeight, int slideHeight) {
-        return new SequentialAction(
-                wristPickup(),
-                armPickupHeight(armHeight),
-                slideArmPickupHeight(slideHeight));
-    }
-
-
-
 }
