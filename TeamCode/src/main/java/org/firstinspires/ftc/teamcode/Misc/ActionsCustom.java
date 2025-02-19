@@ -24,9 +24,7 @@ public class ActionsCustom {
 
     public Action intake() { return new InstantAction(() -> robot.intake.setPower(1)); }
 
-    public Action wristDown() { return new InstantAction(() -> robot.wrist.setPosition(.3)); }
-    public Action wristPickup() { return new InstantAction(() -> robot.wrist.setPosition(.5)); }
-    public Action wristReset() { return new InstantAction(() -> robot.wrist.setPosition(0)); }
+    public Action wristReset() { return new InstantAction(() -> robot.wrist.setPosition(.65)); }
 
     public Action arm(int armPos) {
         return new Action() {

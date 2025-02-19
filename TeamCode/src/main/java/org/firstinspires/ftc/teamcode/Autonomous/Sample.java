@@ -52,6 +52,8 @@ public final class Sample extends LinearOpMode {
 
             Actions.runBlocking( new SequentialAction(
                     actionsCustom.closeArmClaw(),
+                    actionsCustom.wristReset(),
+
                     new ParallelAction(
                             actionsCustom.arm(3825),
                             startingBlock.build(),
@@ -62,34 +64,23 @@ public final class Sample extends LinearOpMode {
                     ),
                     new SleepAction(.5),
                     actionsCustom.openArmClaw(),
-                    new SleepAction(.5),
                     new ParallelAction(
                             turnToBlock1.build(),
-                            new SequentialAction(
-                                    new SleepAction(.5),
-                                    new ParallelAction(
-                                        actionsCustom.slideArm(slidePos),
-                                        actionsCustom.arm(1000)
-                                    ),
-                                    new SleepAction(.5),
-                                    actionsCustom.arm(700),
-                                    new SleepAction(2),
-                                    actionsCustom.closeArmClaw(),
-                                    new SleepAction(.5),
-                                    new ParallelAction(
-                                            toBasket1.build(),
-                                            actionsCustom.arm(0),
-                                            actionsCustom.slideArm(0)
-                                    )
-//                                    new SleepAction(2),
-//                                    actionsCustom.slideArm(2625),
-//                                    new SleepAction(1),
-//                                    actionsCustom.openArmClaw(),
-//                                    new SleepAction(2)
-
-                            )
+                            actionsCustom.slideArm(slidePos)
                     ),
-                    new SleepAction(1.5)
+
+                    new SleepAction(.5),
+                    actionsCustom.arm(1000),
+                    new SleepAction(.5),
+                    actionsCustom.arm(700),
+                    new SleepAction(2),
+                    actionsCustom.closeArmClaw(),
+                    new SleepAction(.5),
+                    new ParallelAction(
+                            toBasket1.build(),
+                            actionsCustom.arm(0),
+                            actionsCustom.slideArm(0)
+                    )
             ));
 
             ArmPosStorage.armPos = robot.arm.getCurrentPosition();

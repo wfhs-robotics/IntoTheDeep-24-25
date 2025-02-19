@@ -52,7 +52,7 @@ public class Drive extends OpMode {
     @Override // Runs ONCE when a person hits START
     public void start() {
         // Init servos
-        robot.wrist.setPosition(1);
+        robot.wrist.setPosition(.65);
         robot.slideClawRight.setPosition(1);
         robot.slideClawLeft.setPosition(0);
         robot.armClawRight.setPosition(0);
