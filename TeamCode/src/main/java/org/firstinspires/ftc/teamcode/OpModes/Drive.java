@@ -183,7 +183,7 @@ public class Drive extends OpMode {
 
 
         // Slide Positions
-        if (gamepad2.dpad_up) slideTarget = 1800;
+        if (gamepad2.dpad_up) slideTarget = 1900;
         else if (gamepad2.dpad_right) slideTarget = 300;
         else if (gamepad2.dpad_left) slideTarget = slideTarget - 100;
         else if (gamepad2.dpad_down) slideTarget = 0;
