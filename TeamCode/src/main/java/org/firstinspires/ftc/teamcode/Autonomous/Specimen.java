@@ -72,6 +72,9 @@ public final class Specimen extends LinearOpMode {
                     //Grab Specimen 1
                     .strafeTo(new Vector2d(48, -55))
                     .strafeTo(new Vector2d(48, -63));
+            TrajectoryActionBuilder park = drive.actionBuilder(new Pose2d(new Vector2d(15, -32), Math.toRadians(-90)))
+                    //Grab Specimen 1
+                    .strafeTo(new Vector2d(60, -72));
 
 
 
@@ -81,6 +84,7 @@ public final class Specimen extends LinearOpMode {
             Actions.runBlocking( new SequentialAction(
                     //Initial Hang
                     actionsCustom.slideArm(0),
+                    actionsCustom.arm(300),
 
                     new ParallelAction(
                             initialHang.build(),
@@ -106,7 +110,7 @@ public final class Specimen extends LinearOpMode {
                     ),
 
                     actionsCustom.slide(-1300),
-                    new SleepAction(.7),
+                    new SleepAction(.4),
 
                     // Drive to and Push blocks
                     new ParallelAction(
@@ -114,7 +118,7 @@ public final class Specimen extends LinearOpMode {
                             actionsCustom.slide(0),
                             pushBlocks.build()
                     ),
-                    new SleepAction(2.5),
+                    new SleepAction(1.8),
                     grabSpecimen.build(),
 
                     //Grab Block 2
@@ -132,9 +136,13 @@ public final class Specimen extends LinearOpMode {
                     actionsCustom.slide(1600),
                     new SleepAction(.5),
                     actionsCustom.openClaw(),
-                    actionsCustom.slide(0)
+                    new ParallelAction(
+                            actionsCustom.slide(0),
+                            park.build()
+                    )
             ));
 
+            ArmPosStorage.slideArmPos = robot.slideArm.getCurrentPosition();
         } else {
             throw new RuntimeException();
         }
